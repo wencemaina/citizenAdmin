@@ -133,6 +133,7 @@ export default function Navigation() {
 	);
 }
  */
+
 "use client";
 import { useState } from "react";
 import {
@@ -147,9 +148,22 @@ import {
 	Building2,
 	ChevronUp,
 	ChevronDown,
+	Box,
+	Archive,
+	Truck,
+	Bell,
+	DollarSign,
+	CreditCard,
+	PieChart,
+	FileText,
+	Megaphone,
+	Tag,
+	Monitor,
+	UserCheck,
 } from "lucide-react";
 import Link from "next/link";
 
+// Rest of your code remains exactly the same...
 const navigationItems = [
 	{
 		type: "section",
@@ -198,6 +212,38 @@ const navigationItems = [
 					{ href: "/products", title: "All Products" },
 					{ href: "/products/create", title: "Create Product" },
 					{ href: "/products/categories", title: "Categories" },
+					{ href: "/products/reviews", title: "Product Reviews" },
+				],
+			},
+			{
+				type: "expandable",
+				icon: Box,
+				title: "Orders",
+				links: [
+					{ href: "/orders", title: "All Orders" },
+					{ href: "/orders/pending", title: "Pending Orders" },
+					{ href: "/orders/completed", title: "Completed Orders" },
+					{ href: "/orders/returns", title: "Returns & Refunds" },
+				],
+			},
+			{
+				type: "expandable",
+				icon: Archive,
+				title: "Inventory",
+				links: [
+					{ href: "/inventory", title: "View Inventory" },
+					{ href: "/inventory/stock", title: "Stock Management" },
+					{ href: "/inventory/restock", title: "Restock Alerts" },
+				],
+			},
+			{
+				type: "expandable",
+				icon: Truck,
+				title: "Vendors",
+				links: [
+					{ href: "/vendors", title: "All Vendors" },
+					{ href: "/vendors/add", title: "Add Vendor" },
+					{ href: "/vendors/requests", title: "Vendor Requests" },
 				],
 			},
 		],
@@ -215,6 +261,42 @@ const navigationItems = [
 					{ href: "/messages/sent", title: "Sent" },
 					{ href: "/messages/drafts", title: "Drafts" },
 				],
+			},
+			{
+				type: "link",
+				href: "/notifications",
+				icon: Bell,
+				title: "Notifications",
+			},
+		],
+	},
+	{
+		type: "section",
+		title: "Financials",
+		items: [
+			{
+				type: "link",
+				href: "/transactions",
+				icon: DollarSign,
+				title: "Transactions",
+			},
+			{
+				type: "link",
+				href: "/payouts",
+				icon: CreditCard,
+				title: "Payouts",
+			},
+			{
+				type: "link",
+				href: "/revenue-reports",
+				icon: PieChart,
+				title: "Revenue Reports",
+			},
+			{
+				type: "link",
+				href: "/tax-information",
+				icon: FileText,
+				title: "Tax Information",
 			},
 		],
 	},
@@ -238,6 +320,36 @@ const navigationItems = [
 	},
 	{
 		type: "section",
+		title: "Marketing",
+		items: [
+			{
+				type: "link",
+				href: "/campaigns",
+				icon: Megaphone,
+				title: "Campaigns",
+			},
+			{
+				type: "link",
+				href: "/coupons",
+				icon: Tag,
+				title: "Discounts & Coupons",
+			},
+			{
+				type: "link",
+				href: "/advertising",
+				icon: Monitor,
+				title: "Advertising Settings",
+			},
+			{
+				type: "link",
+				href: "/affiliate",
+				icon: UserCheck,
+				title: "Affiliate Program",
+			},
+		],
+	},
+	{
+		type: "section",
 		title: "Settings",
 		items: [
 			{
@@ -248,6 +360,8 @@ const navigationItems = [
 					{ href: "/settings/general", title: "General" },
 					{ href: "/settings/security", title: "Security" },
 					{ href: "/settings/notifications", title: "Notifications" },
+					{ href: "/settings/payment", title: "Payment Settings" },
+					{ href: "/settings/shipping", title: "Shipping Settings" },
 				],
 			},
 		],
