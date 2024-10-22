@@ -2,12 +2,15 @@
 import Sidebar from "@/components/sidebar";
 import "./globals.css";
 import TopNav from "@/components/topNavBar";
+import { Inter } from "@next/font/google";
+
+const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
-			<body>
-				<div className="min-h-screen ">
+			<body className={inter.className}>
+				<div className="min-h-screen">
 					<Sidebar />
 					<div className="ml-64">
 						<TopNav />

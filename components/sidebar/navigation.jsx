@@ -1,170 +1,5 @@
-/* "use client";
-import { useState } from "react";
-
-import {
-	Home,
-	Users,
-	ShoppingBag,
-	BarChart2,
-	Mail,
-	ChevronDown,
-	ChevronUp,
-} from "lucide-react";
-import Link from "next/link";
-
-const ExpandableLink = ({ icon: Icon, title, children }) => {
-	const [isExpanded, setIsExpanded] = useState(false);
-
-	return (
-		<div>
-			<button
-				onClick={() => setIsExpanded(!isExpanded)}
-				className="w-full flex items-center justify-between px-3 py-2 text-gray-600 hover:bg-gray-50 rounded-md group"
-			>
-				<div className="flex items-center space-x-3">
-					<Icon size={20} className="group-hover:text-blue-600" />
-					<span className="group-hover:text-blue-600">{title}</span>
-				</div>
-				{isExpanded ? (
-					<ChevronUp size={16} className="text-gray-400" />
-				) : (
-					<ChevronDown size={16} className="text-gray-400" />
-				)}
-			</button>
-			{isExpanded && <div className="space-y-1">{children}</div>}
-		</div>
-	);
-};
-
-export default function Navigation() {
-	return (
-		<nav className="flex-1 overflow-y-auto p-4">
-			<div className="space-y-1">
-				<Link
-					href="/"
-					className="flex items-center space-x-3 px-3 py-2 bg-blue-50 text-blue-600 rounded-md"
-				>
-					<Home size={20} />
-					<span className="font-medium">Dashboard</span>
-				</Link>
-
-				<p className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase mt-4">
-					Management
-				</p>
-
-				<ExpandableLink icon={Users} title="Users">
-					<Link
-						href="/users"
-						className="block pl-6 py-2 text-gray-600 hover:bg-gray-50 rounded-md group"
-					>
-						<span className="group-hover:text-blue-600">
-							All Users
-						</span>
-					</Link>
-					<Link
-						href="/users/createUser"
-						className="block pl-6 py-2 text-gray-600 hover:bg-gray-50 rounded-md group"
-					>
-						<span className="group-hover:text-blue-600">
-							Create User
-						</span>
-					</Link>
-					<Link
-						href="/users/roles"
-						className="block pl-6 py-2 text-gray-600 hover:bg-gray-50 rounded-md group"
-					>
-						<span className="group-hover:text-blue-600">
-							Roles & Permissions
-						</span>
-					</Link>
-				</ExpandableLink>
-
-				<ExpandableLink icon={ShoppingBag} title="Products">
-					<Link
-						href="/products"
-						className="block pl-6 py-2 text-gray-600 hover:bg-gray-50 rounded-md group"
-					>
-						<span className="group-hover:text-blue-600">
-							All Products
-						</span>
-					</Link>
-					<Link
-						href="/products/create"
-						className="block pl-6 py-2 text-gray-600 hover:bg-gray-50 rounded-md group"
-					>
-						<span className="group-hover:text-blue-600">
-							Create Product
-						</span>
-					</Link>
-					<Link
-						href="/products/categories"
-						className="block pl-6 py-2 text-gray-600 hover:bg-gray-50 rounded-md group"
-					>
-						<span className="group-hover:text-blue-600">
-							Categories
-						</span>
-					</Link>
-				</ExpandableLink>
-
-				<Link
-					href="/analytics"
-					className="flex items-center space-x-3 px-3 py-2 text-gray-600 hover:bg-gray-50 rounded-md group"
-				>
-					<BarChart2
-						size={20}
-						className="group-hover:text-blue-600"
-					/>
-					<span className="group-hover:text-blue-600">Analytics</span>
-				</Link>
-
-				<p className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase mt-4">
-					Communication
-				</p>
-
-				<Link
-					href="/messages"
-					className="flex items-center space-x-3 px-3 py-2 text-gray-600 hover:bg-gray-50 rounded-md group"
-				>
-					<Mail size={20} className="group-hover:text-blue-600" />
-					<span className="group-hover:text-blue-600">Messages</span>
-				</Link>
-			</div>
-		</nav>
-	);
-}
- */
-
-"use client";
-import { useState } from "react";
-import {
-	Home,
-	Users,
-	ShoppingBag,
-	BarChart2,
-	Mail,
-	Settings,
-	HeadphonesIcon,
-	FileQuestion,
-	Building2,
-	ChevronUp,
-	ChevronDown,
-	Box,
-	Archive,
-	Truck,
-	Bell,
-	DollarSign,
-	CreditCard,
-	PieChart,
-	FileText,
-	Megaphone,
-	Tag,
-	Monitor,
-	UserCheck,
-} from "lucide-react";
-import Link from "next/link";
-
 // Rest of your code remains exactly the same...
-const navigationItems = [
+/* const navigationItems = [
 	{
 		type: "section",
 		title: "General",
@@ -211,10 +46,17 @@ const navigationItems = [
 				links: [
 					{ href: "/products", title: "All Products" },
 					{ href: "/products/create", title: "Create Product" },
+					{ href: "/products/in-house", title: "In House Products" },
+					{
+						href: "/products/seller-products",
+						title: "Seller Products",
+					},
+
 					{ href: "/products/categories", title: "Categories" },
 					{ href: "/products/reviews", title: "Product Reviews" },
 				],
 			},
+
 			{
 				type: "expandable",
 				icon: Box,
@@ -248,6 +90,190 @@ const navigationItems = [
 			},
 		],
 	},
+
+	{
+		type: "section",
+		title: "Sales",
+		items: [
+			{
+				type: "expandable",
+				icon: ShoppingCart, // You can import this icon from lucide-react
+				title: "Active Sales",
+				links: [
+					{ href: "/sales/ongoing", title: "Ongoing Sales" },
+					{ href: "/sales/upcoming", title: "Upcoming Sales" },
+					{ href: "/sales/ending-soon", title: "Ending Soon" },
+					{ href: "/sales/featured", title: "Featured Sales" },
+				],
+			},
+			{
+				type: "expandable",
+				icon: TagIcon,
+				title: "Sales Management",
+				links: [
+					{ href: "/sales/create", title: "Create New Sale" },
+					{ href: "/sales/draft", title: "Draft Sales" },
+					{ href: "/sales/templates", title: "Sales Templates" },
+					{ href: "/sales/bulk-upload", title: "Bulk Upload" },
+				],
+			},
+			{
+				type: "expandable",
+				icon: ShoppingBag,
+				title: "Orders",
+				links: [
+					{ href: "/sales/orders/active", title: "Active Orders" },
+					{
+						href: "/sales/orders/returns",
+						title: "Return Management",
+					},
+					{
+						href: "/sales/orders/cancellations",
+						title: "Order Cancellations",
+					},
+					{
+						href: "/sales/orders/fulfilled",
+						title: "Fulfilled Orders",
+					},
+				],
+			},
+			{
+				type: "expandable",
+				icon: ClipboardList,
+				title: "Reporting",
+				links: [
+					{
+						href: "/sales/reports/performance",
+						title: "Sales Performance",
+					},
+					{
+						href: "/sales/reports/completed",
+						title: "Completed Sales",
+					},
+					{
+						href: "/sales/reports/revenue",
+						title: "Revenue Analysis",
+					},
+					{
+						href: "/sales/reports/user-activity",
+						title: "Customer Activity",
+					},
+				],
+			},
+			{
+				type: "expandable",
+				icon: Settings2,
+				title: "Settings",
+				links: [
+					{
+						href: "/sales/settings/discounts",
+						title: "Discounts & Coupons",
+					},
+					{
+						href: "/sales/settings/shipping",
+						title: "Shipping Settings",
+					},
+					{
+						href: "/sales/settings/payment",
+						title: "Payment Methods",
+					},
+					{
+						href: "/sales/settings/notifications",
+						title: "Notification Settings",
+					},
+				],
+			},
+		],
+	},
+	{
+		type: "section",
+		title: "Auctions",
+		items: [
+			{
+				type: "expandable",
+				icon: Gavel, // We'll need to import this from lucide-react
+				title: "Active Auctions",
+				links: [
+					{ href: "/auctions/live", title: "Live Auctions" },
+					{ href: "/auctions/upcoming", title: "Upcoming Auctions" },
+					{ href: "/auctions/ending-soon", title: "Ending Soon" },
+					{ href: "/auctions/featured", title: "Featured Auctions" },
+				],
+			},
+			{
+				type: "expandable",
+				icon: PlusCircle,
+				title: "Auction Mngt",
+				links: [
+					{ href: "/auctions/create", title: "Create New Auction" },
+					{ href: "/auctions/draft", title: "Draft Auctions" },
+					{ href: "/auctions/templates", title: "Auction Templates" },
+					{ href: "/auctions/bulk-upload", title: "Bulk Upload" },
+				],
+			},
+			{
+				type: "expandable",
+				icon: Goal,
+				title: "Bidding",
+				links: [
+					{ href: "/auctions/bids/active", title: "Active Bids" },
+					{
+						href: "/auctions/bids/auto",
+						title: "Auto-Bidding Rules",
+					},
+					{
+						href: "/auctions/bids/watchlist",
+						title: "Bid Watchlist",
+					},
+					{ href: "/auctions/bids/disputes", title: "Bid Disputes" },
+				],
+			},
+			{
+				type: "expandable",
+				icon: ClipboardList,
+				title: "Reporting",
+				links: [
+					{
+						href: "/auctions/reports/performance",
+						title: "Auction Performance",
+					},
+					{
+						href: "/auctions/reports/completed",
+						title: "Completed Auctions",
+					},
+					{
+						href: "/auctions/reports/revenue",
+						title: "Revenue Analysis",
+					},
+					{
+						href: "/auctions/reports/user-activity",
+						title: "User Activity",
+					},
+				],
+			},
+			{
+				type: "expandable",
+				icon: Settings2,
+				title: "Settings",
+				links: [
+					{
+						href: "/auctions/settings/categories",
+						title: "Categories",
+					},
+					{
+						href: "/auctions/settings/rules",
+						title: "Auction Rules",
+					},
+					{ href: "/auctions/settings/fees", title: "Fee Structure" },
+					{
+						href: "/auctions/settings/notifications",
+						title: "Notification Settings",
+					},
+				],
+			},
+		],
+	},
+
 	{
 		type: "section",
 		title: "Communication",
@@ -366,6 +392,66 @@ const navigationItems = [
 			},
 		],
 	},
+]; */
+
+"use client";
+import { useState } from "react";
+import {
+	Home,
+	Users,
+	ShoppingBag,
+	BarChart2,
+	Mail,
+	Settings,
+	HeadphonesIcon,
+	FileQuestion,
+	Building2,
+	ChevronUp,
+	ChevronDown,
+	Box,
+	Archive,
+	Truck,
+	Bell,
+	DollarSign,
+	CreditCard,
+	PieChart,
+	FileText,
+	Megaphone,
+	Tag,
+	Monitor,
+	UserCheck,
+	Gavel,
+	PlusCircle,
+	Goal,
+	ClipboardList,
+	Settings2,
+	ShoppingCart,
+	TagIcon,
+} from "lucide-react";
+import Link from "next/link";
+import { reports } from "./navigationItems/reports";
+import managementNavigation from "./navigationItems/management";
+import generalNavigation from "./navigationItems/general";
+import salesNavigation from "./navigationItems/sales";
+import auctionsNavigation from "./navigationItems/auction";
+import communicationNavigation from "./navigationItems/communication";
+import financialsNavigation from "./navigationItems/financials";
+import marketingNavigation from "./navigationItems/marketing";
+import settingsNavigation from "./navigationItems/settings";
+import supportNavigation from "./navigationItems/support";
+import refundsNavigation from "./navigationItems/refunds";
+
+const navigationItems = [
+	generalNavigation,
+	managementNavigation,
+	salesNavigation,
+	auctionsNavigation,
+	communicationNavigation,
+	financialsNavigation,
+	refundsNavigation,
+	marketingNavigation,
+	supportNavigation,
+	settingsNavigation,
 ];
 
 const ExpandableLink = ({ icon: Icon, title, links }) => {
@@ -395,7 +481,7 @@ const ExpandableLink = ({ icon: Icon, title, links }) => {
 							href={link.href}
 							className="block pl-6 py-2 text-gray-600 hover:bg-gray-50 rounded-md group"
 						>
-							<span className="group-hover:text-blue-600">
+							<span className="group-hover:text-blue-600  text-[14px] ">
 								{link.title}
 							</span>
 						</Link>
@@ -417,7 +503,7 @@ const NavLink = ({ href, icon: Icon, title, active }) => (
 	>
 		<Icon size={20} className={!active && "group-hover:text-blue-600"} />
 		<span
-			className={`${
+			className={`text-sm ${
 				active ? "font-medium" : "group-hover:text-blue-600"
 			}`}
 		>
