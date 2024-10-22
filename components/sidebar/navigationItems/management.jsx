@@ -35,7 +35,7 @@ const managementNavigation = {
 			icon: Box,
 			title: "Orders",
 			links: [
-				{ href: "/orders", title: "All Orders" },
+				{ href: "/all-orders", title: "All Orders" },
 				{ href: "/orders/pending", title: "Pending Orders" },
 				{ href: "/orders/completed", title: "Completed Orders" },
 				{ href: "/orders/returns", title: "Returns & Refunds" },
