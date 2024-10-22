@@ -1,5 +1,3 @@
-"use client";
-
 import Logo from "./logo";
 import Navigation from "./navigation";
 import UserProfile from "./userProfile";

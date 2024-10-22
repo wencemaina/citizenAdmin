@@ -1,12 +1,13 @@
-import Sidebar from "@/componentss/sidebar";
+// app/layout.js
+import Sidebar from "@/components/sidebar";
 import "./globals.css";
-import TopNav from "@/componentss/topNavBar";
+import TopNav from "@/components/topNavBar";
 
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
 			<body>
-				<div className="min-h-screen">
+				<div className="min-h-screen ">
 					<Sidebar />
 					<div className="ml-64">
 						<TopNav />

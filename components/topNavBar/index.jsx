@@ -1,5 +1,3 @@
-// components/TopNav/index.js
-
 import Notifications from "./notification";
 import SearchBar from "./searchbar";
 
