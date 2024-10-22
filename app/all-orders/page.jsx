@@ -3,37 +3,86 @@ import React, { useState } from "react";
 import { Eye, Trash, ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-const customersData = [
-	// Sample customer data
+const ordersData = [
 	{
-		id: "CUST0001",
-		name: "John Doe",
-		email: "john@example.com",
-		phone: "555-1234",
-		lastLogin: "2024-10-01",
-		totalSpend: 1200,
-		totalOrders: 5,
-		status: "Active",
+		id: "ORD1001",
+		items: 3,
+		amount: 299.99,
+		deliveryStatus: "Delivered",
+		paymentMethod: "Credit Card",
+		orderDate: "2024-10-01",
 	},
 	{
-		id: "CUST0002",
-		name: "Jane Smith",
-		email: "jane@example.com",
-		phone: "555-5678",
-		lastLogin: "2024-09-15",
-		totalSpend: 800,
-		totalOrders: 3,
-		status: "Inactive",
+		id: "ORD1002",
+		items: 1,
+		amount: 49.99,
+		deliveryStatus: "In Transit",
+		paymentMethod: "PayPal",
+		orderDate: "2024-10-03",
 	},
 	{
-		id: "CUST0003",
-		name: "Alice Johnson",
-		email: "alice@example.com",
-		phone: "555-8765",
-		lastLogin: "2024-10-05",
-		totalSpend: 1500,
-		totalOrders: 7,
-		status: "Active",
+		id: "ORD1003",
+		items: 5,
+		amount: 599.99,
+		deliveryStatus: "Processing",
+		paymentMethod: "Debit Card",
+		orderDate: "2024-10-05",
+	},
+	{
+		id: "ORD1004",
+		items: 2,
+		amount: 150.0,
+		deliveryStatus: "Delivered",
+		paymentMethod: "Credit Card",
+		orderDate: "2024-10-07",
+	},
+	{
+		id: "ORD1005",
+		items: 4,
+		amount: 120.0,
+		deliveryStatus: "Cancelled",
+		paymentMethod: "Bank Transfer",
+		orderDate: "2024-10-10",
+	},
+	{
+		id: "ORD1006",
+		items: 6,
+		amount: 750.0,
+		deliveryStatus: "In Transit",
+		paymentMethod: "PayPal",
+		orderDate: "2024-10-12",
+	},
+	{
+		id: "ORD1007",
+		items: 1,
+		amount: 25.99,
+		deliveryStatus: "Delivered",
+		paymentMethod: "Credit Card",
+		orderDate: "2024-10-15",
+	},
+	{
+		id: "ORD1008",
+		items: 3,
+		amount: 199.95,
+		deliveryStatus: "Processing",
+		paymentMethod: "Debit Card",
+		orderDate: "2024-10-17",
+	},
+	{
+		id: "ORD1009",
+		items: 8,
+		amount: 320.0,
+		deliveryStatus: "Delivered",
+		paymentMethod: "Credit Card",
+		orderDate: "2024-10-20",
+	},
+	{
+		id: "ORD1010",
+		items: 2,
+		amount: 60.0,
+		deliveryStatus: "In Transit",
+		paymentMethod: "PayPal",
+		orderDate: "2024-10-22",
 	},
 ];
 
@@ -43,17 +92,17 @@ export default function AllOrdersPage() {
 	const [entriesPerPage, setEntriesPerPage] = useState(5);
 	const [currentPage, setCurrentPage] = useState(1);
 
-	const handleViewDetails = (userId) => {
-		router.push(`/order-details/${userId}`);
+	const handleViewDetails = (orderId) => {
+		router.push(`/order-details/${orderId}`);
 	};
 
-	const filteredCustomers = customersData
-		.filter((customer) => {
+	const filteredOrders = ordersData
+		.filter((order) => {
 			const searchLower = searchTerm.toLowerCase();
 			return (
-				customer.name.toLowerCase().includes(searchLower) ||
-				customer.email.toLowerCase().includes(searchLower) ||
-				customer.id.toString().includes(searchLower)
+				order.id.toLowerCase().includes(searchLower) ||
+				order.deliveryStatus.toLowerCase().includes(searchLower) ||
+				order.paymentMethod.toLowerCase().includes(searchLower)
 			);
 		})
 		.slice(
@@ -61,21 +110,33 @@ export default function AllOrdersPage() {
 			currentPage * entriesPerPage,
 		);
 
-	// Reset to first page when search changes
 	React.useEffect(() => {
 		setCurrentPage(1);
 	}, [searchTerm]);
 
-	const totalFilteredCustomers = customersData.filter((customer) => {
+	const totalFilteredOrders = ordersData.filter((order) => {
 		const searchLower = searchTerm.toLowerCase();
 		return (
-			customer.name.toLowerCase().includes(searchLower) ||
-			customer.email.toLowerCase().includes(searchLower) ||
-			customer.id.toString().includes(searchLower)
+			order.id.toLowerCase().includes(searchLower) ||
+			order.deliveryStatus.toLowerCase().includes(searchLower) ||
+			order.paymentMethod.toLowerCase().includes(searchLower)
 		);
 	}).length;
 
-	const totalPages = Math.ceil(totalFilteredCustomers / entriesPerPage);
+	const totalPages = Math.ceil(totalFilteredOrders / entriesPerPage);
+
+	const getStatusColor = (status) => {
+		switch (status.toLowerCase()) {
+			case "delivered":
+				return "bg-green-100 text-green-800";
+			case "in transit":
+				return "bg-blue-100 text-blue-800";
+			case "processing":
+				return "bg-yellow-100 text-yellow-800";
+			default:
+				return "bg-gray-100 text-gray-800";
+		}
+	};
 
 	return (
 		<div className="p-4">
@@ -83,7 +144,7 @@ export default function AllOrdersPage() {
 				<div className="relative w-80">
 					<input
 						type="text"
-						placeholder="Search by name, email, or ID..."
+						placeholder="Search by order ID, status, or payment method..."
 						className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm pr-8"
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
@@ -116,28 +177,22 @@ export default function AllOrdersPage() {
 								#
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								User ID
+								Order ID
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Name
+								No. of Items
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Email
+								Amount
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Phone
+								Delivery Status
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Last Login
+								Payment Method
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Total Spend
-							</th>
-							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Total Orders
-							</th>
-							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Status
+								Order Date
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
 								Actions
@@ -145,42 +200,36 @@ export default function AllOrdersPage() {
 						</tr>
 					</thead>
 					<tbody className="divide-y divide-gray-200">
-						{filteredCustomers.map((customer, index) => (
-							<tr key={customer.id} className="hover:bg-gray-50">
+						{filteredOrders.map((order, index) => (
+							<tr key={order.id} className="hover:bg-gray-50">
 								<td className="py-3 px-4">
 									{(currentPage - 1) * entriesPerPage +
 										index +
 										1}
 								</td>
-								<td className="py-3 px-4">{customer.id}</td>
-								<td className="py-3 px-4">{customer.name}</td>
-								<td className="py-3 px-4">{customer.email}</td>
-								<td className="py-3 px-4">{customer.phone}</td>
+								<td className="py-3 px-4">{order.id}</td>
+								<td className="py-3 px-4">{order.items}</td>
 								<td className="py-3 px-4">
-									{customer.lastLogin}
-								</td>
-								<td className="py-3 px-4">
-									${customer.totalSpend}
-								</td>
-								<td className="py-3 px-4">
-									{customer.totalOrders}
+									${order.amount.toFixed(2)}
 								</td>
 								<td className="py-3 px-4">
 									<span
-										className={`px-2 py-1 rounded-full text-xs ${
-											customer.status === "Active"
-												? "bg-green-100 text-green-800"
-												: "bg-gray-100 text-gray-800"
-										}`}
+										className={`px-2 py-1 rounded-full text-xs ${getStatusColor(
+											order.deliveryStatus,
+										)}`}
 									>
-										{customer.status}
+										{order.deliveryStatus}
 									</span>
 								</td>
+								<td className="py-3 px-4">
+									{order.paymentMethod}
+								</td>
+								<td className="py-3 px-4">{order.orderDate}</td>
 								<td className="py-3 px-4">
 									<div className="flex items-center space-x-3">
 										<button
 											onClick={() =>
-												handleViewDetails(customer.id)
+												handleViewDetails(order.id)
 											}
 											className="group flex items-center justify-center w-8 h-8 rounded-lg hover:bg-blue-50 transition-colors"
 										>
@@ -200,15 +249,15 @@ export default function AllOrdersPage() {
 			<div className="flex justify-between items-center mt-4 text-sm text-gray-600">
 				<div>
 					Showing{" "}
-					{filteredCustomers.length > 0
+					{filteredOrders.length > 0
 						? (currentPage - 1) * entriesPerPage + 1
 						: 0}{" "}
 					to{" "}
 					{Math.min(
 						currentPage * entriesPerPage,
-						totalFilteredCustomers,
+						totalFilteredOrders,
 					)}{" "}
-					of {totalFilteredCustomers} entries
+					of {totalFilteredOrders} entries
 				</div>
 				<div className="flex items-center space-x-2">
 					<ChevronLeft
