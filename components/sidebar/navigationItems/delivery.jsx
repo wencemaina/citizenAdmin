@@ -7,7 +7,7 @@ const deliveryNavigation = {
 		{
 			type: "expandable",
 			icon: Truck,
-			title: "Delivery Management",
+			title: "Delivery Mgmt",
 			links: [
 				{ href: "/delivery", title: "All Deliveries" },
 				{ href: "/delivery/pending", title: "Pending Deliveries" },
@@ -28,7 +28,7 @@ const deliveryNavigation = {
 		{
 			type: "expandable",
 			icon: PackageCheck,
-			title: "Tracking & Updates",
+			title: "Tracking",
 			links: [
 				{ href: "/delivery/tracking", title: "Delivery Tracking" },
 				{ href: "/delivery/updates", title: "Update Status" },

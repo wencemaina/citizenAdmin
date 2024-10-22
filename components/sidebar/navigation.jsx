@@ -442,6 +442,7 @@ import supportNavigation from "./navigationItems/support";
 import refundsNavigation from "./navigationItems/refunds";
 import staffNavigation from "./navigationItems/staff";
 import sellersNavigation from "./navigationItems/sellers";
+import deliveryNavigation from "./navigationItems/delivery";
 
 const navigationItems = [
 	generalNavigation,
@@ -450,6 +451,7 @@ const navigationItems = [
 	auctionsNavigation,
 	communicationNavigation,
 	financialsNavigation,
+	deliveryNavigation,
 	refundsNavigation,
 	marketingNavigation,
 	supportNavigation,
