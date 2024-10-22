@@ -24,7 +24,7 @@ const salesNavigation = {
 		{
 			type: "expandable",
 			icon: TagIcon,
-			title: "Sales Management",
+			title: "Sales Mngt",
 			links: [
 				{ href: "/sales/create", title: "Create New Sale" },
 				{ href: "/sales/draft", title: "Draft Sales" },

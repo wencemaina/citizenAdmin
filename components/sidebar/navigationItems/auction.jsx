@@ -24,7 +24,7 @@ const auctionsNavigation = {
 		{
 			type: "expandable",
 			icon: PlusCircle,
-			title: "Auction Management",
+			title: "Auction Mngt",
 			links: [
 				{ href: "/auctions/create", title: "Create New Auction" },
 				{ href: "/auctions/draft", title: "Draft Auctions" },

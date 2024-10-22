@@ -440,6 +440,8 @@ import marketingNavigation from "./navigationItems/marketing";
 import settingsNavigation from "./navigationItems/settings";
 import supportNavigation from "./navigationItems/support";
 import refundsNavigation from "./navigationItems/refunds";
+import staffNavigation from "./navigationItems/staff";
+import sellersNavigation from "./navigationItems/sellers";
 
 const navigationItems = [
 	generalNavigation,
@@ -451,6 +453,8 @@ const navigationItems = [
 	refundsNavigation,
 	marketingNavigation,
 	supportNavigation,
+	sellersNavigation,
+	staffNavigation,
 	settingsNavigation,
 ];
 
