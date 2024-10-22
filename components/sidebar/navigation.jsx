@@ -471,7 +471,9 @@ const ExpandableLink = ({ icon: Icon, title, links }) => {
 			>
 				<div className="flex items-center space-x-3">
 					<Icon size={20} className="group-hover:text-blue-600" />
-					<span className="group-hover:text-blue-600">{title}</span>
+					<span className="group-hover:text-blue-600 font-semibold text-[14px] ">
+						{title}
+					</span>
 				</div>
 				{isExpanded ? (
 					<ChevronUp size={16} className="text-gray-400" />
@@ -487,7 +489,7 @@ const ExpandableLink = ({ icon: Icon, title, links }) => {
 							href={link.href}
 							className="block pl-6 py-2 text-gray-600 hover:bg-gray-50 rounded-md group"
 						>
-							<span className="group-hover:text-blue-600  text-[14px] ">
+							<span className="group-hover:text-blue-600  font-semibold text-[14px] ">
 								{link.title}
 							</span>
 						</Link>

@@ -10,8 +10,11 @@ const managementNavigation = {
 			title: "Users",
 			links: [
 				{ href: "/users", title: "All Users" },
-				{ href: "/users/createUser", title: "Create User" },
-				{ href: "/users/roles", title: "Roles & Permissions" },
+				{ href: "/create-user", title: "Create User" },
+				{
+					href: "/roles-and-permissions",
+					title: "Roles & Permissions",
+				},
 			],
 		},
 		{
