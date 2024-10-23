@@ -24,8 +24,11 @@ const managementNavigation = {
 			links: [
 				{ href: "/all-products", title: "All Products" },
 				{ href: "/products/create", title: "Create Product" },
-				{ href: "/products/in-house", title: "In House Products" },
-				{ href: "/products/seller-products", title: "Seller Products" },
+				{
+					href: "/inhouse-products",
+					title: "In House Products",
+				},
+				{ href: "/vendor-products", title: "Vendor Products" },
 				{ href: "/products/categories", title: "Categories" },
 				{ href: "/products/reviews", title: "Product Reviews" },
 			],
