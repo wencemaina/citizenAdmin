@@ -1,6 +1,6 @@
+"use client";
 import React, { useState } from "react";
 import { ImagePlus } from "lucide-react";
-
 export default function CreateProduct() {
 	const [formData, setFormData] = useState({
 		name: "",
