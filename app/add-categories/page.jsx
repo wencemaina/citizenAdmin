@@ -1,50 +1,63 @@
 "use client";
 import React, { useState } from "react";
+
 export default function AddCategories() {
 	const [category, setCategory] = useState("");
-	const [subCategories, setSubCategories] = useState([""]);
-	const [leafCategories, setLeafCategories] = useState([""]);
+	const [subCategories, setSubCategories] = useState([
+		{ name: "", leafCategories: [""] },
+	]);
 
 	const handleFormSubmit = (e) => {
 		e.preventDefault();
 		console.log("Category:", category);
-		console.log("Sub Categories:", subCategories);
-		console.log("Leaf Categories:", leafCategories);
-		// You can add the logic to submit the category data to the backend here
+		console.log("Sub Categories with Leaf Categories:", subCategories);
+		// Add the logic to submit the category data to the backend here
 	};
 
 	const handleReset = () => {
 		setCategory("");
-		setSubCategories([""]);
-		setLeafCategories([""]);
+		setSubCategories([{ name: "", leafCategories: [""] }]);
 	};
 
 	// Add or Remove Sub Category
-	const addSubCategory = () => setSubCategories([...subCategories, ""]);
+	const addSubCategory = () =>
+		setSubCategories([
+			...subCategories,
+			{ name: "", leafCategories: [""] },
+		]);
+
 	const removeSubCategory = (index) => {
 		const newSubCategories = subCategories.filter((_, i) => i !== index);
 		setSubCategories(newSubCategories);
 	};
 
-	// Add or Remove Leaf Category
-	const addLeafCategory = () => setLeafCategories([...leafCategories, ""]);
-	const removeLeafCategory = (index) => {
-		const newLeafCategories = leafCategories.filter((_, i) => i !== index);
-		setLeafCategories(newLeafCategories);
-	};
-
 	// Update Sub Category Input
 	const updateSubCategory = (index, value) => {
 		const updatedSubCategories = [...subCategories];
-		updatedSubCategories[index] = value;
+		updatedSubCategories[index].name = value;
+		setSubCategories(updatedSubCategories);
+	};
+
+	// Add or Remove Leaf Category within a specific subcategory
+	const addLeafCategory = (subIndex) => {
+		const updatedSubCategories = [...subCategories];
+		updatedSubCategories[subIndex].leafCategories.push("");
+		setSubCategories(updatedSubCategories);
+	};
+
+	const removeLeafCategory = (subIndex, leafIndex) => {
+		const updatedSubCategories = [...subCategories];
+		updatedSubCategories[subIndex].leafCategories = updatedSubCategories[
+			subIndex
+		].leafCategories.filter((_, i) => i !== leafIndex);
 		setSubCategories(updatedSubCategories);
 	};
 
 	// Update Leaf Category Input
-	const updateLeafCategory = (index, value) => {
-		const updatedLeafCategories = [...leafCategories];
-		updatedLeafCategories[index] = value;
-		setLeafCategories(updatedLeafCategories);
+	const updateLeafCategory = (subIndex, leafIndex, value) => {
+		const updatedSubCategories = [...subCategories];
+		updatedSubCategories[subIndex].leafCategories[leafIndex] = value;
+		setSubCategories(updatedSubCategories);
 	};
 
 	return (
@@ -67,73 +80,82 @@ export default function AddCategories() {
 					/>
 				</div>
 
-				{/* Sub Categories */}
-				<div>
-					<label className="block text-sm font-medium text-gray-700 mb-1">
-						Sub Categories
-					</label>
-					{subCategories.map((subCategory, index) => (
-						<div key={index} className="flex space-x-2 mb-2">
+				{/* Sub Categories with Leaf Categories */}
+				{subCategories.map((subCategory, subIndex) => (
+					<div key={subIndex} className="border p-4 rounded-lg mb-4">
+						{/* Sub Category Name */}
+						<div className="flex space-x-2 mb-2">
 							<input
 								type="text"
-								value={subCategory}
+								value={subCategory.name}
 								onChange={(e) =>
-									updateSubCategory(index, e.target.value)
+									updateSubCategory(subIndex, e.target.value)
 								}
-								placeholder={`Sub Category ${index + 1}`}
+								placeholder={`Sub Category ${subIndex + 1}`}
 								className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
 							/>
 							<button
 								type="button"
-								onClick={() => removeSubCategory(index)}
+								onClick={() => removeSubCategory(subIndex)}
 								className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
 							>
 								Remove
 							</button>
 						</div>
-					))}
-					<button
-						type="button"
-						onClick={addSubCategory}
-						className="mt-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-					>
-						Add Sub Category
-					</button>
-				</div>
 
-				{/* Leaf Categories */}
-				<div>
-					<label className="block text-sm font-medium text-gray-700 mb-1">
-						Leaf Categories
-					</label>
-					{leafCategories.map((leafCategory, index) => (
-						<div key={index} className="flex space-x-2 mb-2">
-							<input
-								type="text"
-								value={leafCategory}
-								onChange={(e) =>
-									updateLeafCategory(index, e.target.value)
-								}
-								placeholder={`Leaf Category ${index + 1}`}
-								className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
-							/>
-							<button
-								type="button"
-								onClick={() => removeLeafCategory(index)}
-								className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
-							>
-								Remove
-							</button>
-						</div>
-					))}
-					<button
-						type="button"
-						onClick={addLeafCategory}
-						className="mt-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
-					>
-						Add Leaf Category
-					</button>
-				</div>
+						{/* Leaf Categories for each Sub Category */}
+						{subCategory.leafCategories.map(
+							(leafCategory, leafIndex) => (
+								<div
+									key={leafIndex}
+									className="flex space-x-2 mb-2"
+								>
+									<input
+										type="text"
+										value={leafCategory}
+										onChange={(e) =>
+											updateLeafCategory(
+												subIndex,
+												leafIndex,
+												e.target.value,
+											)
+										}
+										placeholder={`Leaf Category ${
+											leafIndex + 1
+										}`}
+										className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500"
+									/>
+									<button
+										type="button"
+										onClick={() =>
+											removeLeafCategory(
+												subIndex,
+												leafIndex,
+											)
+										}
+										className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+									>
+										Remove
+									</button>
+								</div>
+							),
+						)}
+						<button
+							type="button"
+							onClick={() => addLeafCategory(subIndex)}
+							className="mt-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+						>
+							Add Leaf Category
+						</button>
+					</div>
+				))}
+				<button
+					type="button"
+					onClick={addSubCategory}
+					className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+				>
+					Add Sub Category
+				</button>
 
 				{/* Action Buttons */}
 				<div className="flex justify-between items-center">
