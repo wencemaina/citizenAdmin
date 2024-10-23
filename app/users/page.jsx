@@ -4,7 +4,6 @@ import { Eye, Trash, ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const customersData = [
-	// Sample customer data
 	{
 		id: "CUST0001",
 		name: "John Doe",
@@ -14,6 +13,8 @@ const customersData = [
 		totalSpend: 1200,
 		totalOrders: 5,
 		status: "Active",
+		memberSince: "2022-03-12",
+		image: "", // No image provided
 	},
 	{
 		id: "CUST0002",
@@ -24,6 +25,8 @@ const customersData = [
 		totalSpend: 800,
 		totalOrders: 3,
 		status: "Inactive",
+		memberSince: "2021-05-08",
+		image: "", // No image provided
 	},
 	{
 		id: "CUST0003",
@@ -34,80 +37,12 @@ const customersData = [
 		totalSpend: 1500,
 		totalOrders: 7,
 		status: "Active",
-	},
-	{
-		id: "CUST0004",
-		name: "Bob Brown",
-		email: "bob@example.com",
-		phone: "555-4321",
-		lastLogin: "2024-09-20",
-		totalSpend: 300,
-		totalOrders: 2,
-		status: "Inactive",
-	},
-	{
-		id: "CUST0005",
-		name: "Charlie Green",
-		email: "charlie@example.com",
-		phone: "555-9876",
-		lastLogin: "2024-10-10",
-		totalSpend: 600,
-		totalOrders: 4,
-		status: "Active",
-	},
-	{
-		id: "CUST0006",
-		name: "Diana Prince",
-		email: "diana@example.com",
-		phone: "555-6543",
-		lastLogin: "2024-09-28",
-		totalSpend: 950,
-		totalOrders: 6,
-		status: "Active",
-	},
-	{
-		id: "CUST0007",
-		name: "Ethan Hunt",
-		email: "ethan@example.com",
-		phone: "555-3210",
-		lastLogin: "2024-08-30",
-		totalSpend: 1200,
-		totalOrders: 3,
-		status: "Inactive",
-	},
-	{
-		id: "CUST0008",
-		name: "Fiona Gallagher",
-		email: "fiona@example.com",
-		phone: "555-2468",
-		lastLogin: "2024-10-15",
-		totalSpend: 500,
-		totalOrders: 1,
-		status: "Active",
-	},
-	{
-		id: "CUST0009",
-		name: "George Costanza",
-		email: "george@example.com",
-		phone: "555-1357",
-		lastLogin: "2024-09-10",
-		totalSpend: 400,
-		totalOrders: 2,
-		status: "Active",
-	},
-	{
-		id: "CUST0010",
-		name: "Hannah Baker",
-		email: "hannah@example.com",
-		phone: "555-2460",
-		lastLogin: "2024-10-12",
-		totalSpend: 2000,
-		totalOrders: 10,
-		status: "Inactive",
+		memberSince: "2020-11-22",
+		image: "https://i.pinimg.com/enabled/236x/d9/bc/1a/d9bc1abeb5be60f7e6075790946dfc01.jpg", // Sample image
 	},
 ];
 
-const CustomerTable = () => {
+export default function CustomerTable() {
 	const router = useRouter();
 	const [searchTerm, setSearchTerm] = useState("");
 	const [entriesPerPage, setEntriesPerPage] = useState(5);
@@ -131,7 +66,6 @@ const CustomerTable = () => {
 			currentPage * entriesPerPage,
 		);
 
-	// Reset to first page when search changes
 	React.useEffect(() => {
 		setCurrentPage(1);
 	}, [searchTerm]);
@@ -146,6 +80,12 @@ const CustomerTable = () => {
 	}).length;
 
 	const totalPages = Math.ceil(totalFilteredCustomers / entriesPerPage);
+
+	// Function to get initials for the name if no image is provided
+	const getInitials = (name) => {
+		const nameParts = name.split(" ");
+		return nameParts.map((part) => part[0].toUpperCase()).join("");
+	};
 
 	return (
 		<div className="p-4">
@@ -189,10 +129,10 @@ const CustomerTable = () => {
 								User ID
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Name
+								Name & Email
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Email
+								Member Since
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
 								Phone
@@ -223,14 +163,36 @@ const CustomerTable = () => {
 										1}
 								</td>
 								<td className="py-3 px-4">{customer.id}</td>
-								<td className="py-3 px-4">{customer.name}</td>
-								<td className="py-3 px-4">{customer.email}</td>
+								<td className="py-3 px-4 flex items-center">
+									{customer.image ? (
+										<img
+											src={customer.image}
+											alt={customer.name}
+											className="w-10 h-10 rounded-full object-cover mr-3"
+										/>
+									) : (
+										<div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center mr-3">
+											<span className="text-gray-600">
+												{getInitials(customer.name)}
+											</span>
+										</div>
+									)}
+									<div>
+										<p>{customer.name}</p>
+										<p className="text-xs text-gray-500">
+											{customer.email}
+										</p>
+									</div>
+								</td>
+								<td className="py-3 px-4">
+									{customer.memberSince}
+								</td>
 								<td className="py-3 px-4">{customer.phone}</td>
 								<td className="py-3 px-4">
 									{customer.lastLogin}
 								</td>
 								<td className="py-3 px-4">
-									${customer.totalSpend}
+									Ksh {customer.totalSpend}
 								</td>
 								<td className="py-3 px-4">
 									{customer.totalOrders}
@@ -267,46 +229,37 @@ const CustomerTable = () => {
 				</table>
 			</div>
 
-			<div className="flex justify-between items-center mt-4 text-sm text-gray-600">
-				<div>
-					Showing{" "}
-					{filteredCustomers.length > 0
-						? (currentPage - 1) * entriesPerPage + 1
-						: 0}{" "}
-					to{" "}
-					{Math.min(
-						currentPage * entriesPerPage,
-						totalFilteredCustomers,
-					)}{" "}
-					of {totalFilteredCustomers} entries
-				</div>
+			<div className="flex justify-between mt-4">
+				<p className="text-sm text-gray-600">
+					Showing {filteredCustomers.length} of{" "}
+					{totalFilteredCustomers} entries
+				</p>
 				<div className="flex items-center space-x-2">
-					<ChevronLeft
-						className={`w-5 h-5 cursor-pointer ${
-							currentPage === 1
-								? "text-gray-300"
-								: "text-gray-600 hover:text-gray-800"
-						}`}
+					<button
 						onClick={() =>
-							currentPage > 1 && setCurrentPage(currentPage - 1)
+							setCurrentPage((prev) => Math.max(prev - 1, 1))
 						}
-					/>
-					<span className="px-2">{currentPage}</span>
-					<ChevronRight
-						className={`w-5 h-5 cursor-pointer ${
-							currentPage === totalPages
-								? "text-gray-300"
-								: "text-gray-600 hover:text-gray-800"
-						}`}
+						disabled={currentPage === 1}
+						className="p-2 text-gray-500 hover:text-gray-700 disabled:text-gray-300"
+					>
+						<ChevronLeft className="w-5 h-5" />
+					</button>
+					<span className="text-sm text-gray-600">
+						Page {currentPage} of {totalPages}
+					</span>
+					<button
 						onClick={() =>
-							currentPage < totalPages &&
-							setCurrentPage(currentPage + 1)
+							setCurrentPage((prev) =>
+								Math.min(prev + 1, totalPages),
+							)
 						}
-					/>
+						disabled={currentPage === totalPages}
+						className="p-2 text-gray-500 hover:text-gray-700 disabled:text-gray-300"
+					>
+						<ChevronRight className="w-5 h-5" />
+					</button>
 				</div>
 			</div>
 		</div>
 	);
-};
-
-export default CustomerTable;
+}
