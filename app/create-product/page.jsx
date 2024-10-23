@@ -1,4 +1,4 @@
-"use client";
+/* "use client";
 import React, { useState } from "react";
 import { ImagePlus } from "lucide-react";
 export default function CreateProduct() {
@@ -43,7 +43,7 @@ export default function CreateProduct() {
 					</h2>
 
 					<form onSubmit={handleSubmit} className="space-y-6">
-						{/* Basic Information */}
+						
 						<div className="grid grid-cols-1 gap-6 md:grid-cols-2">
 							<div>
 								<label className="block text-sm font-medium text-gray-700">
@@ -124,7 +124,7 @@ export default function CreateProduct() {
 							</div>
 						</div>
 
-						{/* Description */}
+				
 						<div>
 							<label className="block text-sm font-medium text-gray-700">
 								Short Description
@@ -155,7 +155,7 @@ export default function CreateProduct() {
 							/>
 						</div>
 
-						{/* Attributes */}
+			
 						<div className="grid grid-cols-1 gap-6 md:grid-cols-2">
 							<div>
 								<label className="block text-sm font-medium text-gray-700">
@@ -198,7 +198,7 @@ export default function CreateProduct() {
 							</div>
 						</div>
 
-						{/* Image Upload */}
+			
 						<div>
 							<label className="block text-sm font-medium text-gray-700">
 								Product Images
@@ -236,11 +236,162 @@ export default function CreateProduct() {
 							</div>
 						</div>
 
-						{/* Submit Button */}
+						
 						<div className="flex justify-end">
 							<button
 								type="submit"
 								className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+							>
+								Save Product
+							</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	);
+}
+ */
+
+"use client";
+import { Attributes } from "@/components/create-product/attributes";
+import { BasicInfo } from "@/components/create-product/basicInfo";
+import { Description } from "@/components/create-product/description";
+import { ImageUpload } from "@/components/create-product/imageUpload";
+import { Pricing } from "@/components/create-product/pricing";
+import { ShippingConfig } from "@/components/create-product/shippingConfig";
+import { useState } from "react";
+
+// CreateProduct.js (Main Component)
+export default function CreateProduct() {
+	const [formData, setFormData] = useState({
+		name: "",
+		brand: "",
+		category: "",
+		subCategory: "",
+		leafCategory: "",
+		shortDescription: "",
+		longDescription: "",
+		size: "",
+		color: "",
+		weight: "",
+		thumbnail: null,
+		images: [],
+		price: "",
+		points: 0,
+		shippingOptions: [],
+	});
+
+	// Sample data
+	const categories = ["Electronics", "Clothing", "Home & Garden", "Books"];
+	const subCategories = ["Phones", "Laptops", "Accessories"];
+	const leafCategories = ["iPhone", "Samsung", "Google Pixel"];
+	const sizes = ["S", "M", "L", "XL"];
+	const colors = ["Red", "Blue", "Green", "Black", "White"];
+	const brands = ["Apple", "Samsung", "Google", "Sony", "LG"];
+	const shippingOptions = [
+		{
+			id: "standard",
+			name: "Standard Shipping",
+			price: 5.99,
+			duration: "5-7 days",
+		},
+		{
+			id: "express",
+			name: "Express Shipping",
+			price: 14.99,
+			duration: "2-3 days",
+		},
+		{
+			id: "overnight",
+			name: "Overnight Shipping",
+			price: 29.99,
+			duration: "1 day",
+		},
+	];
+
+	const handleChange = (e) => {
+		const { name, value, type, checked } = e.target;
+
+		if (type === "checkbox") {
+			const options = [...formData.shippingOptions];
+			if (checked) {
+				options.push(value);
+			} else {
+				const index = options.indexOf(value);
+				if (index > -1) options.splice(index, 1);
+			}
+			setFormData((prev) => ({ ...prev, shippingOptions: options }));
+		} else {
+			setFormData((prev) => ({ ...prev, [name]: value }));
+		}
+	};
+
+	const handleImageChange = (e) => {
+		const files = Array.from(e.target.files);
+		setFormData((prev) => ({ ...prev, images: files }));
+	};
+
+	const handleThumbnailChange = (e) => {
+		const file = e.target.files[0];
+		setFormData((prev) => ({ ...prev, thumbnail: file }));
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		console.log("Form submitted:", formData);
+	};
+
+	return (
+		<div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+			<div className="max-w-3xl mx-auto">
+				<div className="bg-white shadow-md rounded-lg p-6">
+					<h2 className="text-2xl font-bold mb-6 text-gray-800">
+						Create New Product
+					</h2>
+
+					<form onSubmit={handleSubmit} className="space-y-8">
+						<BasicInfo
+							formData={formData}
+							handleChange={handleChange}
+							categories={categories}
+							subCategories={subCategories}
+							leafCategories={leafCategories}
+							brands={brands}
+						/>
+
+						<Description
+							formData={formData}
+							handleChange={handleChange}
+						/>
+
+						<Attributes
+							formData={formData}
+							handleChange={handleChange}
+							sizes={sizes}
+							colors={colors}
+						/>
+
+						<ImageUpload
+							handleImageChange={handleImageChange}
+							handleThumbnailChange={handleThumbnailChange}
+						/>
+
+						<Pricing
+							formData={formData}
+							handleChange={handleChange}
+						/>
+
+						<ShippingConfig
+							formData={formData}
+							handleChange={handleChange}
+							shippingOptions={shippingOptions}
+						/>
+
+						<div className="flex justify-end">
+							<button
+								type="submit"
+								className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-sm"
 							>
 								Save Product
 							</button>
