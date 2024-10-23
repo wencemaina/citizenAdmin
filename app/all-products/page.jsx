@@ -1,108 +1,119 @@
 "use client";
+
 import React, { useState } from "react";
 import { Eye, Trash, ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const productsData = [
 	{
-		id: "PRD1001",
-		name: "Wireless Headphones",
-		image: "https://images.pexels.com/photos/1674752/pexels-photo-1674752.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-		category: "Electronics",
-		price: 129.99,
-		quantity: 45,
-		status: "Active",
-		stock: "In Stock",
-	},
-	{
-		id: "PRD1002",
-		name: "Smart Watch",
-		image: "https://images.pexels.com/photos/2301285/pexels-photo-2301285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-		category: "Wearables",
-		price: 199.5,
-		quantity: 0,
-		status: "Inactive",
-		stock: "Out of Stock",
-	},
-	{
-		id: "PRD1003",
-		name: "Laptop Pro",
-		image: "https://images.pexels.com/photos/2633986/pexels-photo-2633986.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-		category: "Computers",
-		price: 1299.99,
-		quantity: 12,
-		status: "Scheduled",
-		stock: "Low Stock",
-	},
-	{
-		id: "PRD1004",
-		name: "Bluetooth Speaker",
-		image: "https://images.pexels.com/photos/28968492/pexels-photo-28968492/free-photo-of-luxurious-makeup-collection-display.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-		category: "Electronics",
+		id: "PRD1010",
+		name: "Portable SSD",
+		image: "https://images.pexels.com/photos/5060897/pexels-photo-5060897.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+		category: "Storage",
+		vendor: "Citizen",
 		price: 89.99,
-		quantity: 30,
+		quantity: 10,
 		status: "Active",
-		stock: "In Stock",
-	},
-	{
-		id: "PRD1005",
-		name: "Gaming Mouse",
-		image: "https://images.pexels.com/photos/8500498/pexels-photo-8500498.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-		category: "Computers",
-		price: 49.99,
-		quantity: 20,
-		status: "Active",
-		stock: "In Stock",
-	},
-	{
-		id: "PRD1006",
-		name: "4K Monitor",
-		image: "https://images.pexels.com/photos/2638026/pexels-photo-2638026.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-		category: "Computers",
-		price: 499.99,
-		quantity: 5,
-		status: "Scheduled",
 		stock: "Low Stock",
 	},
 	{
-		id: "PRD1007",
-		name: "Action Camera",
-		image: "https://images.pexels.com/photos/17653878/pexels-photo-17653878/free-photo-of-ice-cream-dessert-with-strawberries.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-		category: "Electronics",
-		price: 299.99,
-		quantity: 15,
-		status: "Active",
-		stock: "In Stock",
-	},
-	{
-		id: "PRD1008",
-		name: "Fitness Tracker",
-		image: "https://images.pexels.com/photos/16560453/pexels-photo-16560453/free-photo-of-ice-cream-with-sprinkles-in-a-cup.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-		category: "Wearables",
-		price: 59.99,
+		id: "PRD1020",
+		name: "Wireless Mouse",
+		image: "https://images.pexels.com/photos/3730765/pexels-photo-3730765.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+		category: "Accessories",
+		vendor: "Citizen",
+		price: 29.99,
 		quantity: 25,
 		status: "Active",
 		stock: "In Stock",
 	},
 	{
-		id: "PRD1009",
-		name: "Wireless Charger",
-		image: "https://images.pexels.com/photos/9227962/pexels-photo-9227962.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+		id: "PRD1030",
+		name: "Mechanical Keyboard",
+		image: "https://images.pexels.com/photos/8839604/pexels-photo-8839604.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
 		category: "Accessories",
-		price: 29.99,
+		vendor: "KeyCorp",
+		price: 79.99,
+		quantity: 15,
+		status: "Active",
+		stock: "In Stock",
+	},
+	{
+		id: "PRD1040",
+		name: "HDMI Cable",
+		image: "https://images.pexels.com/photos/276588/pexels-photo-276588.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+		category: "Cables",
+		vendor: "CableWorld",
+		price: 15.99,
 		quantity: 50,
 		status: "Active",
 		stock: "In Stock",
 	},
 	{
-		id: "PRD1010",
-		name: "Portable SSD",
-		image: "https://images.pexels.com/photos/5060897/pexels-photo-5060897.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-		category: "Storage",
-		price: 89.99,
-		quantity: 10,
+		id: "PRD1050",
+		name: "USB-C Hub",
+		image: "https://images.pexels.com/photos/5926137/pexels-photo-5926137.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+		category: "Accessories",
+		vendor: "HubMasters",
+		price: 39.99,
+		quantity: 20,
+		status: "Active",
+		stock: "In Stock",
+	},
+	{
+		id: "PRD1060",
+		name: "Gaming Headset",
+		image: "https://images.pexels.com/photos/8839604/pexels-photo-8839604.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+		category: "Audio",
+		vendor: "SoundPro",
+		price: 99.99,
+		quantity: 5,
 		status: "Active",
 		stock: "Low Stock",
+	},
+	{
+		id: "PRD1070",
+		name: "4K Monitor",
+		image: "https://images.pexels.com/photos/4596556/pexels-photo-4596556.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+		category: "Displays",
+		vendor: "ViewTech",
+		price: 299.99,
+		quantity: 8,
+		status: "Active",
+		stock: "Low Stock",
+	},
+	{
+		id: "PRD1080",
+		name: "Laptop Stand",
+		image: "https://images.pexels.com/photos/3824848/pexels-photo-3824848.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+		category: "Furniture",
+		vendor: "ErgoWorks",
+		price: 49.99,
+		quantity: 30,
+		status: "Active",
+		stock: "In Stock",
+	},
+	{
+		id: "PRD1090",
+		name: "Wireless Charger",
+		image: "https://images.pexels.com/photos/4056013/pexels-photo-4056013.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+		category: "Accessories",
+		vendor: "ChargeIt",
+		price: 24.99,
+		quantity: 40,
+		status: "Active",
+		stock: "In Stock",
+	},
+	{
+		id: "PRD1100",
+		name: "Smartphone Stand",
+		image: "https://images.pexels.com/photos/8839604/pexels-photo-8839604.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+		category: "Accessories",
+		vendor: "StandCo",
+		price: 15.99,
+		quantity: 35,
+		status: "Active",
+		stock: "In Stock",
 	},
 ];
 
@@ -121,7 +132,7 @@ export default function AllProductsPage() {
 			const searchLower = searchTerm.toLowerCase();
 			return (
 				product.name.toLowerCase().includes(searchLower) ||
-				product.category.toLowerCase().includes(searchLower) ||
+				product.vendor.toLowerCase().includes(searchLower) ||
 				product.status.toLowerCase().includes(searchLower) ||
 				product.stock.toLowerCase().includes(searchLower)
 			);
@@ -139,7 +150,7 @@ export default function AllProductsPage() {
 		const searchLower = searchTerm.toLowerCase();
 		return (
 			product.name.toLowerCase().includes(searchLower) ||
-			product.category.toLowerCase().includes(searchLower) ||
+			product.vendor.toLowerCase().includes(searchLower) ||
 			product.status.toLowerCase().includes(searchLower) ||
 			product.stock.toLowerCase().includes(searchLower)
 		);
@@ -179,7 +190,7 @@ export default function AllProductsPage() {
 				<div className="relative w-80">
 					<input
 						type="text"
-						placeholder="Search by name, category, status or stock..."
+						placeholder="Search by name, vendor, status or stock..."
 						className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm pr-8"
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
@@ -215,7 +226,7 @@ export default function AllProductsPage() {
 								Name
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Category
+								Vendor
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
 								Price
@@ -251,14 +262,17 @@ export default function AllProductsPage() {
 												className="w-full h-full object-cover"
 											/>
 										</div>
-										<span className="font-medium">
-											{product.name}
-										</span>
+										<div className="flex flex-col">
+											<span className="font-medium">
+												{product.name}
+											</span>
+											<span className="text-xs text-gray-500">
+												{product.category}
+											</span>
+										</div>
 									</div>
 								</td>
-								<td className="py-3 px-4">
-									{product.category}
-								</td>
+								<td className="py-3 px-4">{product.vendor}</td>
 								<td className="py-3 px-4">
 									Ksh {product.price.toFixed(2)}
 								</td>
@@ -325,9 +339,13 @@ export default function AllProductsPage() {
 							)
 						}
 						disabled={currentPage === 1}
-						className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 disabled:opacity-50"
+						className={`${
+							currentPage === 1
+								? "text-gray-400 cursor-not-allowed"
+								: "text-blue-500 hover:text-blue-600"
+						}`}
 					>
-						<ChevronLeft className="w-4 h-4" />
+						<ChevronLeft />
 					</button>
 					<div>
 						Page {currentPage} of {totalPages}
@@ -339,9 +357,13 @@ export default function AllProductsPage() {
 							)
 						}
 						disabled={currentPage === totalPages}
-						className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 disabled:opacity-50"
+						className={`${
+							currentPage === totalPages
+								? "text-gray-400 cursor-not-allowed"
+								: "text-blue-500 hover:text-blue-600"
+						}`}
 					>
-						<ChevronRight className="w-4 h-4" />
+						<ChevronRight />
 					</button>
 				</div>
 			</div>
