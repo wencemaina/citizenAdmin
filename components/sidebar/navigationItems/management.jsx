@@ -22,7 +22,7 @@ const managementNavigation = {
 			icon: ShoppingBag,
 			title: "Products",
 			links: [
-				{ href: "/products", title: "All Products" },
+				{ href: "/all-products", title: "All Products" },
 				{ href: "/products/create", title: "Create Product" },
 				{ href: "/products/in-house", title: "In House Products" },
 				{ href: "/products/seller-products", title: "Seller Products" },
@@ -36,9 +36,11 @@ const managementNavigation = {
 			title: "Orders",
 			links: [
 				{ href: "/all-orders", title: "All Orders" },
-				{ href: "/orders/pending", title: "Pending Orders" },
-				{ href: "/orders/completed", title: "Completed Orders" },
-				{ href: "/orders/returns", title: "Returns & Refunds" },
+				{ href: "/inhouse-orders", title: "InHouse Orders" },
+				{ href: "/seller-orders", title: "Seller Orders" },
+				{ href: "/pickup-point-orders", title: "PickUp Pnt Orders" },
+				{ href: "/pending-orders", title: "Pending Orders" },
+				{ href: "/completed-orders", title: "Completed Orders" },
 			],
 		},
 		{
@@ -56,7 +58,7 @@ const managementNavigation = {
 			icon: Truck,
 			title: "Vendors",
 			links: [
-				{ href: "/vendors", title: "All Vendors" },
+				{ href: "/all-vendors", title: "All Vendors" },
 				{ href: "/vendors/add", title: "Add Vendor" },
 				{ href: "/vendors/requests", title: "Vendor Requests" },
 			],

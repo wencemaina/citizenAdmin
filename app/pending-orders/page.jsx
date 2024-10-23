@@ -9,9 +9,9 @@ const ordersData = [
 		customer: "John Doe",
 		items: 3,
 		amount: 299.99,
-		deliveryStatus: "Delivered",
+		deliveryStatus: "Pending", // Changed to Pending
 		paymentMethod: "Credit Card",
-		paymentStatus: "Paid",
+		paymentStatus: "Unpaid", // Changed to Unpaid
 		orderDate: "2024-10-01",
 	},
 	{
@@ -19,9 +19,9 @@ const ordersData = [
 		customer: "Jane Smith",
 		items: 1,
 		amount: 49.99,
-		deliveryStatus: "In Transit",
+		deliveryStatus: "Pending", // Changed to Pending
 		paymentMethod: "PayPal",
-		paymentStatus: "Pending",
+		paymentStatus: "Unpaid", // Changed to Unpaid
 		orderDate: "2024-10-03",
 	},
 	{
@@ -29,14 +29,14 @@ const ordersData = [
 		customer: "Alice Johnson",
 		items: 5,
 		amount: 599.99,
-		deliveryStatus: "Processing",
+		deliveryStatus: "Pending", // Changed to Pending
 		paymentMethod: "Debit Card",
-		paymentStatus: "Failed",
+		paymentStatus: "Unpaid", // Changed to Unpaid
 		orderDate: "2024-10-05",
 	},
 ];
 
-export default function AllOrdersPage() {
+export default function PendingOrdersPage() {
 	const router = useRouter();
 	const [searchTerm, setSearchTerm] = useState("");
 	const [entriesPerPage, setEntriesPerPage] = useState(5);
@@ -86,6 +86,8 @@ export default function AllOrdersPage() {
 			case "pending":
 				return "bg-yellow-100 text-yellow-800";
 			case "failed":
+				return "bg-red-100 text-red-800";
+			case "unpaid": // Added handling for unpaid status
 				return "bg-red-100 text-red-800";
 			default:
 				return "bg-gray-100 text-gray-800";
@@ -145,9 +147,7 @@ export default function AllOrdersPage() {
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
 								Order Date
 							</th>
-							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Amount
-							</th>
+							<th className="py-4 text-[13px] px-4">Amount</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
 								Payment Status
 							</th>

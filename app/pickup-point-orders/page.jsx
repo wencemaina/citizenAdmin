@@ -9,34 +9,37 @@ const ordersData = [
 		customer: "John Doe",
 		items: 3,
 		amount: 299.99,
-		deliveryStatus: "Delivered",
+		pickupStatus: "Ready for Pickup",
 		paymentMethod: "Credit Card",
 		paymentStatus: "Paid",
 		orderDate: "2024-10-01",
+		pickupLocation: "Store A",
 	},
 	{
 		id: "ORD1002",
 		customer: "Jane Smith",
 		items: 1,
 		amount: 49.99,
-		deliveryStatus: "In Transit",
+		pickupStatus: "In Progress",
 		paymentMethod: "PayPal",
 		paymentStatus: "Pending",
 		orderDate: "2024-10-03",
+		pickupLocation: "Store B",
 	},
 	{
 		id: "ORD1003",
 		customer: "Alice Johnson",
 		items: 5,
 		amount: 599.99,
-		deliveryStatus: "Processing",
+		pickupStatus: "Processing",
 		paymentMethod: "Debit Card",
 		paymentStatus: "Failed",
 		orderDate: "2024-10-05",
+		pickupLocation: "Store C",
 	},
 ];
 
-export default function AllOrdersPage() {
+export default function PickupPointOrdersPage() {
 	const router = useRouter();
 	const [searchTerm, setSearchTerm] = useState("");
 	const [entriesPerPage, setEntriesPerPage] = useState(5);
@@ -52,9 +55,10 @@ export default function AllOrdersPage() {
 			return (
 				order.id.toLowerCase().includes(searchLower) ||
 				order.customer.toLowerCase().includes(searchLower) ||
-				order.deliveryStatus.toLowerCase().includes(searchLower) ||
+				order.pickupStatus.toLowerCase().includes(searchLower) ||
 				order.paymentMethod.toLowerCase().includes(searchLower) ||
-				order.paymentStatus.toLowerCase().includes(searchLower)
+				order.paymentStatus.toLowerCase().includes(searchLower) ||
+				order.pickupLocation.toLowerCase().includes(searchLower)
 			);
 		})
 		.slice(
@@ -71,9 +75,10 @@ export default function AllOrdersPage() {
 		return (
 			order.id.toLowerCase().includes(searchLower) ||
 			order.customer.toLowerCase().includes(searchLower) ||
-			order.deliveryStatus.toLowerCase().includes(searchLower) ||
+			order.pickupStatus.toLowerCase().includes(searchLower) ||
 			order.paymentMethod.toLowerCase().includes(searchLower) ||
-			order.paymentStatus.toLowerCase().includes(searchLower)
+			order.paymentStatus.toLowerCase().includes(searchLower) ||
+			order.pickupLocation.toLowerCase().includes(searchLower)
 		);
 	}).length;
 
@@ -145,14 +150,17 @@ export default function AllOrdersPage() {
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
 								Order Date
 							</th>
-							<th className="py-4 px-4 text-left font-semibold text-gray-700">
+							<th className="py-4 text-[13px] px-4 text-left font-semibold text-gray-700">
 								Amount
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
 								Payment Status
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Delivery Status
+								Pickup Status
+							</th>
+							<th className="py-4 px-4 text-left font-semibold text-gray-700">
+								Pickup Location
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
 								Actions
@@ -187,7 +195,10 @@ export default function AllOrdersPage() {
 									</span>
 								</td>
 								<td className="py-3 px-4">
-									<span>{order.deliveryStatus}</span>
+									<span>{order.pickupStatus}</span>
+								</td>
+								<td className="py-3 px-4">
+									<span>{order.pickupLocation}</span>
 								</td>
 								<td className="py-3 px-4">
 									<div className="flex items-center space-x-3">

@@ -3,58 +3,60 @@ import React, { useState } from "react";
 import { Eye, Trash, ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-const ordersData = [
+const vendorsData = [
 	{
-		id: "ORD1001",
-		customer: "John Doe",
-		items: 3,
-		amount: 299.99,
-		deliveryStatus: "Delivered",
-		paymentMethod: "Credit Card",
-		paymentStatus: "Paid",
-		orderDate: "2024-10-01",
+		id: "VEN1001",
+		name: "Tech Haven",
+		logo: "https://images.pexels.com/photos/1674752/pexels-photo-1674752.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+		phone: "+254 712 345 678",
+		email: "contact@techhaven.com",
+		verified: true,
+		productsCount: 45,
+		status: "Active",
+		dueAmount: 2499.99,
 	},
 	{
-		id: "ORD1002",
-		customer: "Jane Smith",
-		items: 1,
-		amount: 49.99,
-		deliveryStatus: "In Transit",
-		paymentMethod: "PayPal",
-		paymentStatus: "Pending",
-		orderDate: "2024-10-03",
+		id: "VEN1002",
+		name: "Global Gadgets",
+		logo: "https://images.pexels.com/photos/2301285/pexels-photo-2301285.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+		phone: "+254 723 456 789",
+		email: "sales@globalgadgets.com",
+		verified: false,
+		productsCount: 28,
+		status: "Suspended",
+		dueAmount: 1299.5,
 	},
 	{
-		id: "ORD1003",
-		customer: "Alice Johnson",
-		items: 5,
-		amount: 599.99,
-		deliveryStatus: "Processing",
-		paymentMethod: "Debit Card",
-		paymentStatus: "Failed",
-		orderDate: "2024-10-05",
+		id: "VEN1003",
+		name: "Digital Dreams",
+		logo: "https://images.pexels.com/photos/20637414/pexels-photo-20637414/free-photo-of-muscular-housewife-with-makeup.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+		phone: "+254 734 567 890",
+		email: "info@digitaldreams.com",
+		verified: true,
+		productsCount: 67,
+		status: "Active",
+		dueAmount: 3750.25,
 	},
 ];
 
-export default function AllOrdersPage() {
+export default function AllVendorsPage() {
 	const router = useRouter();
 	const [searchTerm, setSearchTerm] = useState("");
 	const [entriesPerPage, setEntriesPerPage] = useState(5);
 	const [currentPage, setCurrentPage] = useState(1);
 
-	const handleViewDetails = (orderId) => {
-		router.push(`/order-details/${orderId}`);
+	const handleViewDetails = (vendorId) => {
+		router.push(`/vendor-details/${vendorId}`);
 	};
 
-	const filteredOrders = ordersData
-		.filter((order) => {
+	const filteredVendors = vendorsData
+		.filter((vendor) => {
 			const searchLower = searchTerm.toLowerCase();
 			return (
-				order.id.toLowerCase().includes(searchLower) ||
-				order.customer.toLowerCase().includes(searchLower) ||
-				order.deliveryStatus.toLowerCase().includes(searchLower) ||
-				order.paymentMethod.toLowerCase().includes(searchLower) ||
-				order.paymentStatus.toLowerCase().includes(searchLower)
+				vendor.name.toLowerCase().includes(searchLower) ||
+				vendor.email.toLowerCase().includes(searchLower) ||
+				vendor.phone.toLowerCase().includes(searchLower) ||
+				vendor.status.toLowerCase().includes(searchLower)
 			);
 		})
 		.slice(
@@ -66,27 +68,26 @@ export default function AllOrdersPage() {
 		setCurrentPage(1);
 	}, [searchTerm]);
 
-	const totalFilteredOrders = ordersData.filter((order) => {
+	const totalFilteredVendors = vendorsData.filter((vendor) => {
 		const searchLower = searchTerm.toLowerCase();
 		return (
-			order.id.toLowerCase().includes(searchLower) ||
-			order.customer.toLowerCase().includes(searchLower) ||
-			order.deliveryStatus.toLowerCase().includes(searchLower) ||
-			order.paymentMethod.toLowerCase().includes(searchLower) ||
-			order.paymentStatus.toLowerCase().includes(searchLower)
+			vendor.name.toLowerCase().includes(searchLower) ||
+			vendor.email.toLowerCase().includes(searchLower) ||
+			vendor.phone.toLowerCase().includes(searchLower) ||
+			vendor.status.toLowerCase().includes(searchLower)
 		);
 	}).length;
 
-	const totalPages = Math.ceil(totalFilteredOrders / entriesPerPage);
+	const totalPages = Math.ceil(totalFilteredVendors / entriesPerPage);
 
-	const getPaymentStatusColor = (status) => {
+	const getStatusColor = (status) => {
 		switch (status.toLowerCase()) {
-			case "paid":
+			case "active":
 				return "bg-green-100 text-green-800";
+			case "suspended":
+				return "bg-red-100 text-red-800";
 			case "pending":
 				return "bg-yellow-100 text-yellow-800";
-			case "failed":
-				return "bg-red-100 text-red-800";
 			default:
 				return "bg-gray-100 text-gray-800";
 		}
@@ -98,7 +99,7 @@ export default function AllOrdersPage() {
 				<div className="relative w-80">
 					<input
 						type="text"
-						placeholder="Search by order ID, customer, status, or payment..."
+						placeholder="Search by name, email, phone or status..."
 						className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm pr-8"
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
@@ -131,28 +132,25 @@ export default function AllOrdersPage() {
 								#
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Order ID
+								Vendor
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Customer
+								Phone
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								No. of Items
+								Email
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Payment Method
+								Verification
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Order Date
+								Products
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Amount
+								Status
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Payment Status
-							</th>
-							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Delivery Status
+								Due Amount
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
 								Actions
@@ -160,40 +158,60 @@ export default function AllOrdersPage() {
 						</tr>
 					</thead>
 					<tbody className="divide-y divide-gray-200 text-[13px]">
-						{filteredOrders.map((order, index) => (
-							<tr key={order.id} className="hover:bg-gray-50">
+						{filteredVendors.map((vendor, index) => (
+							<tr key={vendor.id} className="hover:bg-gray-50">
 								<td className="py-3 px-4">
 									{(currentPage - 1) * entriesPerPage +
 										index +
 										1}
 								</td>
-								<td className="py-3 px-4">{order.id}</td>
-								<td className="py-3 px-4">{order.customer}</td>
-								<td className="py-3 px-4">{order.items}</td>
 								<td className="py-3 px-4">
-									{order.paymentMethod}
+									<div className="flex items-center space-x-3">
+										<img
+											src={vendor.logo}
+											alt={`${vendor.name} logo`}
+											className="w-10 h-10 rounded-full object-cover"
+										/>
+										<span className="font-medium">
+											{vendor.name}
+										</span>
+									</div>
 								</td>
-								<td className="py-3 px-4">{order.orderDate}</td>
-								<td className="py-3 text-[13px] px-4">
-									Ksh {order.amount.toFixed(2)}
-								</td>
+								<td className="py-3 px-4">{vendor.phone}</td>
+								<td className="py-3 px-4">{vendor.email}</td>
 								<td className="py-3 px-4">
 									<span
-										className={`px-2 py-1 rounded-full text-xs ${getPaymentStatusColor(
-											order.paymentStatus,
-										)}`}
+										className={`px-2 py-1 rounded-full text-xs ${
+											vendor.verified
+												? "bg-green-100 text-green-800"
+												: "bg-yellow-100 text-yellow-800"
+										}`}
 									>
-										{order.paymentStatus}
+										{vendor.verified
+											? "Verified"
+											: "Pending"}
 									</span>
 								</td>
 								<td className="py-3 px-4">
-									<span>{order.deliveryStatus}</span>
+									{vendor.productsCount}
+								</td>
+								<td className="py-3 px-4">
+									<span
+										className={`px-2 py-1 rounded-full text-xs ${getStatusColor(
+											vendor.status,
+										)}`}
+									>
+										{vendor.status}
+									</span>
+								</td>
+								<td className="py-3 px-4">
+									Ksh {vendor.dueAmount.toFixed(2)}
 								</td>
 								<td className="py-3 px-4">
 									<div className="flex items-center space-x-3">
 										<button
 											onClick={() =>
-												handleViewDetails(order.id)
+												handleViewDetails(vendor.id)
 											}
 											className="group flex items-center justify-center w-8 h-8 rounded-lg hover:bg-blue-50 transition-colors"
 										>
@@ -213,15 +231,15 @@ export default function AllOrdersPage() {
 			<div className="flex justify-between items-center mt-4 text-sm text-gray-600">
 				<div>
 					Showing{" "}
-					{filteredOrders.length > 0
+					{filteredVendors.length > 0
 						? (currentPage - 1) * entriesPerPage + 1
 						: 0}{" "}
 					to{" "}
 					{Math.min(
 						currentPage * entriesPerPage,
-						totalFilteredOrders,
+						totalFilteredVendors,
 					)}{" "}
-					of {totalFilteredOrders} entries
+					of {totalFilteredVendors} entries
 				</div>
 				<div className="flex items-center space-x-2">
 					<button

@@ -15,28 +15,28 @@ const ordersData = [
 		orderDate: "2024-10-01",
 	},
 	{
-		id: "ORD1002",
-		customer: "Jane Smith",
-		items: 1,
-		amount: 49.99,
-		deliveryStatus: "In Transit",
-		paymentMethod: "PayPal",
-		paymentStatus: "Pending",
-		orderDate: "2024-10-03",
+		id: "ORD1004",
+		customer: "Emily Clark",
+		items: 2,
+		amount: 150.0,
+		deliveryStatus: "Delivered",
+		paymentMethod: "Debit Card",
+		paymentStatus: "Paid",
+		orderDate: "2024-10-02",
 	},
 	{
-		id: "ORD1003",
-		customer: "Alice Johnson",
-		items: 5,
-		amount: 599.99,
-		deliveryStatus: "Processing",
-		paymentMethod: "Debit Card",
-		paymentStatus: "Failed",
-		orderDate: "2024-10-05",
+		id: "ORD1005",
+		customer: "Michael Brown",
+		items: 4,
+		amount: 450.0,
+		deliveryStatus: "Delivered",
+		paymentMethod: "PayPal",
+		paymentStatus: "Paid",
+		orderDate: "2024-10-04",
 	},
 ];
 
-export default function AllOrdersPage() {
+export default function CompletedOrdersPage() {
 	const router = useRouter();
 	const [searchTerm, setSearchTerm] = useState("");
 	const [entriesPerPage, setEntriesPerPage] = useState(5);
@@ -47,16 +47,15 @@ export default function AllOrdersPage() {
 	};
 
 	const filteredOrders = ordersData
-		.filter((order) => {
-			const searchLower = searchTerm.toLowerCase();
-			return (
-				order.id.toLowerCase().includes(searchLower) ||
-				order.customer.toLowerCase().includes(searchLower) ||
-				order.deliveryStatus.toLowerCase().includes(searchLower) ||
-				order.paymentMethod.toLowerCase().includes(searchLower) ||
-				order.paymentStatus.toLowerCase().includes(searchLower)
-			);
-		})
+		.filter(
+			(order) =>
+				order.deliveryStatus === "Delivered" &&
+				order.paymentStatus === "Paid" &&
+				(order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+					order.customer
+						.toLowerCase()
+						.includes(searchTerm.toLowerCase())),
+		)
 		.slice(
 			(currentPage - 1) * entriesPerPage,
 			currentPage * entriesPerPage,
@@ -66,16 +65,15 @@ export default function AllOrdersPage() {
 		setCurrentPage(1);
 	}, [searchTerm]);
 
-	const totalFilteredOrders = ordersData.filter((order) => {
-		const searchLower = searchTerm.toLowerCase();
-		return (
-			order.id.toLowerCase().includes(searchLower) ||
-			order.customer.toLowerCase().includes(searchLower) ||
-			order.deliveryStatus.toLowerCase().includes(searchLower) ||
-			order.paymentMethod.toLowerCase().includes(searchLower) ||
-			order.paymentStatus.toLowerCase().includes(searchLower)
-		);
-	}).length;
+	const totalFilteredOrders = ordersData.filter(
+		(order) =>
+			order.deliveryStatus === "Delivered" &&
+			order.paymentStatus === "Paid" &&
+			(order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+				order.customer
+					.toLowerCase()
+					.includes(searchTerm.toLowerCase())),
+	).length;
 
 	const totalPages = Math.ceil(totalFilteredOrders / entriesPerPage);
 
@@ -83,10 +81,6 @@ export default function AllOrdersPage() {
 		switch (status.toLowerCase()) {
 			case "paid":
 				return "bg-green-100 text-green-800";
-			case "pending":
-				return "bg-yellow-100 text-yellow-800";
-			case "failed":
-				return "bg-red-100 text-red-800";
 			default:
 				return "bg-gray-100 text-gray-800";
 		}
@@ -98,7 +92,7 @@ export default function AllOrdersPage() {
 				<div className="relative w-80">
 					<input
 						type="text"
-						placeholder="Search by order ID, customer, status, or payment..."
+						placeholder="Search by order ID or customer..."
 						className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm pr-8"
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}

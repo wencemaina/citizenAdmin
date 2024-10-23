@@ -7,6 +7,7 @@ const ordersData = [
 	{
 		id: "ORD1001",
 		customer: "John Doe",
+		seller: "Seller A",
 		items: 3,
 		amount: 299.99,
 		deliveryStatus: "Delivered",
@@ -17,6 +18,7 @@ const ordersData = [
 	{
 		id: "ORD1002",
 		customer: "Jane Smith",
+		seller: "Seller B",
 		items: 1,
 		amount: 49.99,
 		deliveryStatus: "In Transit",
@@ -27,6 +29,7 @@ const ordersData = [
 	{
 		id: "ORD1003",
 		customer: "Alice Johnson",
+		seller: "Seller C",
 		items: 5,
 		amount: 599.99,
 		deliveryStatus: "Processing",
@@ -36,7 +39,7 @@ const ordersData = [
 	},
 ];
 
-export default function AllOrdersPage() {
+export default function SellerOrdersPage() {
 	const router = useRouter();
 	const [searchTerm, setSearchTerm] = useState("");
 	const [entriesPerPage, setEntriesPerPage] = useState(5);
@@ -52,6 +55,7 @@ export default function AllOrdersPage() {
 			return (
 				order.id.toLowerCase().includes(searchLower) ||
 				order.customer.toLowerCase().includes(searchLower) ||
+				order.seller.toLowerCase().includes(searchLower) ||
 				order.deliveryStatus.toLowerCase().includes(searchLower) ||
 				order.paymentMethod.toLowerCase().includes(searchLower) ||
 				order.paymentStatus.toLowerCase().includes(searchLower)
@@ -71,6 +75,7 @@ export default function AllOrdersPage() {
 		return (
 			order.id.toLowerCase().includes(searchLower) ||
 			order.customer.toLowerCase().includes(searchLower) ||
+			order.seller.toLowerCase().includes(searchLower) ||
 			order.deliveryStatus.toLowerCase().includes(searchLower) ||
 			order.paymentMethod.toLowerCase().includes(searchLower) ||
 			order.paymentStatus.toLowerCase().includes(searchLower)
@@ -137,6 +142,9 @@ export default function AllOrdersPage() {
 								Customer
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
+								Seller
+							</th>
+							<th className="py-4 px-4 text-left font-semibold text-gray-700">
 								No. of Items
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
@@ -169,6 +177,7 @@ export default function AllOrdersPage() {
 								</td>
 								<td className="py-3 px-4">{order.id}</td>
 								<td className="py-3 px-4">{order.customer}</td>
+								<td className="py-3 px-4">{order.seller}</td>
 								<td className="py-3 px-4">{order.items}</td>
 								<td className="py-3 px-4">
 									{order.paymentMethod}
