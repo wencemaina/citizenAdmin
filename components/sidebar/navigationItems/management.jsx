@@ -45,6 +45,9 @@ const managementNavigation = {
 				{ href: "/pickup-point-orders", title: "PickUp Pnt Orders" },
 				{ href: "/pending-orders", title: "Pending Orders" },
 				{ href: "/completed-orders", title: "Completed Orders" },
+				{ href: "/order-cancellations", title: "Cancelled Orders" },
+				{ href: "/order-returns", title: " Order returns" },
+				{ href: "/fulfilled-orders", title: "Fulfilled Order" },
 			],
 		},
 		{
