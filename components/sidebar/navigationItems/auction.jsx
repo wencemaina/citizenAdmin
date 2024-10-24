@@ -15,10 +15,8 @@ const auctionsNavigation = {
 			icon: Gavel,
 			title: "Active Auctions",
 			links: [
-				{ href: "/auctions/live", title: "Live Auctions" },
-				{ href: "/auctions/upcoming", title: "Upcoming Auctions" },
-				{ href: "/auctions/ending-soon", title: "Ending Soon" },
-				{ href: "/auctions/featured", title: "Featured Auctions" },
+				{ href: "/live-auctions", title: "Live Auctions" },
+				{ href: "/upcoming-auctions", title: "Upcoming Auctions" },
 			],
 		},
 		{
