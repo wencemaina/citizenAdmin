@@ -19,6 +19,66 @@ const auctionsData = [
 		startTime: new Date(Date.now() - 3600000),
 		endTime: new Date(Date.now() + 3600000),
 	},
+	{
+		id: "AUC1011",
+		name: "Gaming Laptop Auction",
+		image: "https://images.pexels.com/photos/5060897/pexels-photo-5060897.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+		category: "Electronics",
+		vendor: "Techie",
+		vendorEmail: "info@techie.com",
+		lotNumber: "LOT002",
+		startingPrice: 1299.99,
+		currentBid: 1300.0,
+		bidsCount: 5,
+		status: "Active",
+		startTime: new Date(Date.now() - 7200000), // 2 hours ago
+		endTime: new Date(Date.now() + 1800000), // 30 minutes from now
+	},
+	{
+		id: "AUC1012",
+		name: "Smartphone Auction",
+		image: "https://images.pexels.com/photos/5060897/pexels-photo-5060897.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+		category: "Mobile",
+		vendor: "Gadget Hub",
+		vendorEmail: "support@gadgethub.com",
+		lotNumber: "LOT003",
+		startingPrice: 599.99,
+		currentBid: 605.0,
+		bidsCount: 15,
+		status: "Active",
+		startTime: new Date(Date.now() - 18000000), // 5 hours ago
+		endTime: new Date(Date.now() + 3600000), // 1 hour from now
+	},
+	{
+		id: "AUC1013",
+		name: "Bluetooth Headphones Auction",
+		image: "https://images.pexels.com/photos/5060897/pexels-photo-5060897.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+		category: "Audio",
+		vendor: "SoundPro",
+		vendorEmail: "sales@soundpro.com",
+		lotNumber: "LOT004",
+		startingPrice: 49.99,
+		currentBid: 55.0,
+		bidsCount: 8,
+		status: "Active",
+		startTime: new Date(Date.now() + 7200000), // 2 hours from now
+		endTime: new Date(Date.now() + 10800000), // 3 hours from now
+	},
+	{
+		id: "AUC1014",
+		name: "4K TV Auction",
+		image: "https://images.pexels.com/photos/5060897/pexels-photo-5060897.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+		category: "Home Appliances",
+		vendor: "HomeTech",
+		vendorEmail: "info@hometech.com",
+		lotNumber: "LOT005",
+		startingPrice: 899.99,
+		currentBid: 900.0,
+		bidsCount: 12,
+		status: "Active",
+		startTime: new Date(Date.now() - 3600000), // 1 hour ago
+		endTime: new Date(Date.now() + 7200000), // 2 hours from now
+	},
 ];
 
 export default function LiveAuctionsPage() {
@@ -182,17 +242,17 @@ export default function LiveAuctionsPage() {
 									</span>
 								</td>
 								<td className="py-3 px-4">
-									<div className="flex flex-col">
-										<div className="flex items-center">
-											<span className="text-xs text-gray-500 w-16">
+									<div className="flex flex-col text-[11px] text-gray-500">
+										<div className="flex items-center gap-2">
+											<span className="text-[13px]">
 												Start:
 											</span>
 											<span>
 												{auction.startTime.toLocaleString()}
 											</span>
 										</div>
-										<div className="flex items-center">
-											<span className="text-xs text-gray-500 w-16">
+										<div className="flex items-center gap-2">
+											<span className="text-[11px]">
 												End:
 											</span>
 											<span>
