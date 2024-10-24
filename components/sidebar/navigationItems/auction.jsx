@@ -17,19 +17,10 @@ const auctionsNavigation = {
 			links: [
 				{ href: "/live-auctions", title: "Live Auctions" },
 				{ href: "/upcoming-auctions", title: "Upcoming Auctions" },
+				{ href: "/create-new-auction", title: "Create New Auction" },
 			],
 		},
-		{
-			type: "expandable",
-			icon: PlusCircle,
-			title: "Auction Mngt",
-			links: [
-				{ href: "/auctions/create", title: "Create New Auction" },
-				{ href: "/auctions/draft", title: "Draft Auctions" },
-				{ href: "/auctions/templates", title: "Auction Templates" },
-				{ href: "/auctions/bulk-upload", title: "Bulk Upload" },
-			],
-		},
+
 		{
 			type: "expandable",
 			icon: Goal,
