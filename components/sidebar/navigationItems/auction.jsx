@@ -15,9 +15,15 @@ const auctionsNavigation = {
 			icon: Gavel,
 			title: "Active Auctions",
 			links: [
-				{ href: "/live-auctions", title: "Live Auctions" },
-				{ href: "/upcoming-auctions", title: "Upcoming Auctions" },
-				{ href: "/create-new-auction", title: "Create New Auction" },
+				{ href: "/auctions/live-auctions", title: "Live Auctions" },
+				{
+					href: "/auctions/upcoming-auctions",
+					title: "Upcoming Auctions",
+				},
+				{
+					href: "/auctions/create-new-auction",
+					title: "Create New Auction",
+				},
 			],
 		},
 
