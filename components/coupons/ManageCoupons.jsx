@@ -1,41 +1,18 @@
-"use client";
-
 import React, { useState } from "react";
-import { Eye, Trash, ChevronLeft, ChevronRight } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Eye, Trash, ChevronLeft, ChevronRight, Edit } from "lucide-react";
 
-const invoicesData = [
-	{
-		id: "INV1100",
-		customer: {
-			name: "John Doe",
-			email: "john.doe@example.com",
-		},
-		date: "2024-03-15",
-		amount: 1599.99,
-		quantity: 3,
-		status: "Paid",
-	},
-];
-
-export default function AllInvoicesPage() {
-	const router = useRouter();
+export const ManageCoupons = ({ coupons: initialCoupons }) => {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [entriesPerPage, setEntriesPerPage] = useState(5);
 	const [currentPage, setCurrentPage] = useState(1);
 
-	const handleViewDetails = (invoiceId) => {
-		router.push(`/invoices/invoice-details/${invoiceId}`);
-	};
-
-	const filteredInvoices = invoicesData
-		.filter((invoice) => {
+	const filteredCoupons = initialCoupons
+		.filter((coupon) => {
 			const searchLower = searchTerm.toLowerCase();
 			return (
-				invoice.customer.name.toLowerCase().includes(searchLower) ||
-				invoice.customer.email.toLowerCase().includes(searchLower) ||
-				invoice.status.toLowerCase().includes(searchLower) ||
-				invoice.id.toLowerCase().includes(searchLower)
+				coupon.code.toLowerCase().includes(searchLower) ||
+				coupon.type.toLowerCase().includes(searchLower) ||
+				coupon.status.toLowerCase().includes(searchLower)
 			);
 		})
 		.slice(
@@ -47,31 +24,34 @@ export default function AllInvoicesPage() {
 		setCurrentPage(1);
 	}, [searchTerm]);
 
-	const totalFilteredInvoices = invoicesData.filter((invoice) => {
+	const totalFilteredCoupons = initialCoupons.filter((coupon) => {
 		const searchLower = searchTerm.toLowerCase();
 		return (
-			invoice.customer.name.toLowerCase().includes(searchLower) ||
-			invoice.customer.email.toLowerCase().includes(searchLower) ||
-			invoice.status.toLowerCase().includes(searchLower) ||
-			invoice.id.toLowerCase().includes(searchLower)
+			coupon.code.toLowerCase().includes(searchLower) ||
+			coupon.type.toLowerCase().includes(searchLower) ||
+			coupon.status.toLowerCase().includes(searchLower)
 		);
 	}).length;
 
-	const totalPages = Math.ceil(totalFilteredInvoices / entriesPerPage);
+	const totalPages = Math.ceil(totalFilteredCoupons / entriesPerPage);
 
 	const getStatusColor = (status) => {
 		switch (status.toLowerCase()) {
-			case "paid":
+			case "active":
 				return "bg-green-100 text-green-800";
-			case "pending":
-				return "bg-yellow-100 text-yellow-800";
-			case "overdue":
+			case "expired":
+			case "inactive":
 				return "bg-red-100 text-red-800";
-			case "cancelled":
-				return "bg-gray-100 text-gray-800";
 			default:
 				return "bg-gray-100 text-gray-800";
 		}
+	};
+
+	const formatType = (type) => {
+		return type
+			.split("_")
+			.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+			.join(" ");
 	};
 
 	return (
@@ -80,7 +60,7 @@ export default function AllInvoicesPage() {
 				<div className="relative w-80">
 					<input
 						type="text"
-						placeholder="Search by invoice #, customer name, email or status..."
+						placeholder="Search by code, type, or status..."
 						className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm pr-8"
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
@@ -113,19 +93,19 @@ export default function AllInvoicesPage() {
 								#
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Invoice #
+								Code
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Customer
+								Type
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Invoice Date
+								Discount
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Total Amount
+								Usage
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Qty
+								Expiry
 							</th>
 							<th className="py-4 px-4 text-left font-semibold text-gray-700">
 								Status
@@ -136,53 +116,51 @@ export default function AllInvoicesPage() {
 						</tr>
 					</thead>
 					<tbody className="divide-y divide-gray-200 text-[13px]">
-						{filteredInvoices.map((invoice, index) => (
-							<tr key={invoice.id} className="hover:bg-gray-50">
+						{filteredCoupons.map((coupon, index) => (
+							<tr key={coupon.id} className="hover:bg-gray-50">
 								<td className="py-3 px-4">
 									{(currentPage - 1) * entriesPerPage +
 										index +
 										1}
 								</td>
-								<td className="py-3 px-4">{invoice.id}</td>
 								<td className="py-3 px-4">
-									<div className="flex flex-col">
-										<span className="font-medium">
-											{invoice.customer.name}
-										</span>
-										<span className="text-xs text-gray-500">
-											{invoice.customer.email}
-										</span>
+									<div className="font-medium text-gray-900">
+										{coupon.code}
 									</div>
 								</td>
 								<td className="py-3 px-4">
-									{new Date(
-										invoice.date,
-									).toLocaleDateString()}
+									{formatType(coupon.type)}
 								</td>
 								<td className="py-3 px-4">
-									Ksh {invoice.amount.toFixed(2)}
+									{coupon.discountType === "percentage"
+										? `${coupon.discountValue}%`
+										: `$${coupon.discountValue}`}
 								</td>
 								<td className="py-3 px-4">
-									{invoice.quantity}
+									<div className="flex items-center">
+										<span className="font-medium">
+											{coupon.usedCount}
+										</span>
+										<span className="mx-1">/</span>
+										<span>{coupon.usageLimit || "∞"}</span>
+									</div>
+								</td>
+								<td className="py-3 px-4">
+									{coupon.expiryDate}
 								</td>
 								<td className="py-3 px-4">
 									<span
 										className={`px-2 py-1 rounded-full text-xs ${getStatusColor(
-											invoice.status,
+											coupon.status,
 										)}`}
 									>
-										{invoice.status}
+										{coupon.status}
 									</span>
 								</td>
 								<td className="py-3 px-4">
 									<div className="flex items-center space-x-3">
-										<button
-											onClick={() =>
-												handleViewDetails(invoice.id)
-											}
-											className="group flex items-center justify-center w-8 h-8 rounded-lg hover:bg-blue-50 transition-colors"
-										>
-											<Eye className="w-4 h-4 text-blue-500 group-hover:text-blue-600" />
+										<button className="group flex items-center justify-center w-8 h-8 rounded-lg hover:bg-blue-50 transition-colors">
+											<Edit className="w-4 h-4 text-blue-500 group-hover:text-blue-600" />
 										</button>
 										<button className="group flex items-center justify-center w-8 h-8 rounded-lg hover:bg-red-50 transition-colors">
 											<Trash className="w-4 h-4 text-red-500 group-hover:text-red-600" />
@@ -198,15 +176,15 @@ export default function AllInvoicesPage() {
 			<div className="flex justify-between items-center mt-4 text-sm text-gray-600">
 				<div>
 					Showing{" "}
-					{filteredInvoices.length > 0
+					{filteredCoupons.length > 0
 						? (currentPage - 1) * entriesPerPage + 1
 						: 0}{" "}
 					to{" "}
 					{Math.min(
 						currentPage * entriesPerPage,
-						totalFilteredInvoices,
+						totalFilteredCoupons,
 					)}{" "}
-					of {totalFilteredInvoices} entries
+					of {totalFilteredCoupons} entries
 				</div>
 				<div className="flex items-center space-x-2">
 					<button
@@ -246,4 +224,6 @@ export default function AllInvoicesPage() {
 			</div>
 		</div>
 	);
-}
+};
+
+export default ManageCoupons;
