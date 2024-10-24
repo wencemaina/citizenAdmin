@@ -1,7 +1,6 @@
-"use state";
+"use client";
 import React, { useState } from "react";
-import { Eye, Trash, ChevronLeft, ChevronRight, Toggle } from "lucide-react";
-import { Switch } from "@/components/ui/switch";
+import { Eye, Trash, ChevronLeft, ChevronRight } from "lucide-react";
 
 const reviewsData = [
 	{
@@ -49,25 +48,105 @@ const reviewsData = [
 		image: "https://i.pinimg.com/enabled/236x/d9/bc/1a/d9bc1abeb5be60f7e6075790946dfc01.jpg",
 		reviewDate: "2024-10-05",
 	},
+	{
+		id: "REV0004",
+		customerId: "CUST0004",
+		customerName: "Bob Brown",
+		email: "bob@example.com",
+		review: "Not what I expected. The product did not work as described.",
+		rating: 2,
+		productName: "Bluetooth Speaker",
+		orderId: "ORD123459",
+		purchaseDate: "2024-09-10",
+		verifiedPurchase: true,
+		isPublished: true,
+		image: "", // No image provided
+		reviewDate: "2024-10-02",
+	},
+	{
+		id: "REV0005",
+		customerId: "CUST0005",
+		customerName: "Emily Davis",
+		email: "emily@example.com",
+		review: "Fantastic! The camera quality is superb and very user-friendly.",
+		rating: 5,
+		productName: "Digital Camera",
+		orderId: "ORD123460",
+		purchaseDate: "2024-09-12",
+		verifiedPurchase: true,
+		isPublished: true,
+		image: "https://images.pexels.com/photos/17286053/pexels-photo-17286053/free-photo-of-maria4.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+		reviewDate: "2024-10-10",
+	},
+	{
+		id: "REV0006",
+		customerId: "CUST0006",
+		customerName: "Michael Green",
+		email: "michael@example.com",
+		review: "The battery life is amazing! I can use it all day without a recharge.",
+		rating: 4,
+		productName: "Portable Charger",
+		orderId: "ORD123461",
+		purchaseDate: "2024-09-14",
+		verifiedPurchase: true,
+		isPublished: true,
+		image: "", // No image provided
+		reviewDate: "2024-10-12",
+	},
+	{
+		id: "REV0007",
+		customerId: "CUST0007",
+		customerName: "Sarah Wilson",
+		email: "sarah@example.com",
+		review: "Okay product, but I expected better quality for the price.expected better quality for the price.  expected better quality for the price.expected better quality for the price.",
+		rating: 3,
+		productName: "Fitness Tracker",
+		orderId: "ORD123462",
+		purchaseDate: "2024-08-25",
+		verifiedPurchase: true,
+		isPublished: false,
+		image: "", // No image provided
+		reviewDate: "2024-09-20",
+	},
+	{
+		id: "REV0008",
+		customerId: "CUST0008",
+		customerName: "David Clark",
+		email: "david@example.com",
+		review: "Awesome product! It works perfectly and looks great too.",
+		rating: 5,
+		productName: "Laptop Stand",
+		orderId: "ORD123463",
+		purchaseDate: "2024-09-18",
+		verifiedPurchase: true,
+		isPublished: true,
+		image: "https://images.pexels.com/photos/17286053/pexels-photo-17286053/free-photo-of-maria4.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+		reviewDate: "2024-10-15",
+	},
 ];
 
-export default function ReviewDetailsPage() {
+export default function ReviewTable() {
 	const [searchTerm, setSearchTerm] = useState("");
 	const [entriesPerPage, setEntriesPerPage] = useState(5);
 	const [currentPage, setCurrentPage] = useState(1);
-
-	// Function to render star rating
-	const renderStars = (rating) => {
-		return "★".repeat(rating) + "☆".repeat(5 - rating);
-	};
+	const [reviewStates, setReviewStates] = useState(
+		reviewsData.reduce(
+			(acc, review) => ({
+				...acc,
+				[review.id]: review.isPublished,
+			}),
+			{},
+		),
+	);
 
 	const handleTogglePublish = (reviewId) => {
-		// In a real app, this would update the backend
-		console.log(`Toggle publish for review: ${reviewId}`);
+		setReviewStates((prev) => ({
+			...prev,
+			[reviewId]: !prev[reviewId],
+		}));
 	};
 
 	const handleDeleteReview = (reviewId) => {
-		// In a real app, this would show a confirmation dialog and delete from backend
 		console.log(`Delete review: ${reviewId}`);
 	};
 
@@ -98,7 +177,6 @@ export default function ReviewDetailsPage() {
 
 	const totalPages = Math.ceil(totalFilteredReviews / entriesPerPage);
 
-	// Function to get initials for the name if no image is provided
 	const getInitials = (name) => {
 		const nameParts = name.split(" ");
 		return nameParts.map((part) => part[0].toUpperCase()).join("");
@@ -139,22 +217,25 @@ export default function ReviewDetailsPage() {
 				<table className="w-full text-sm">
 					<thead>
 						<tr className="bg-gray-100 border-b border-gray-200">
-							<th className="py-4 px-4 text-left font-semibold text-gray-700">
+							<th className="py-4 px-4 text-left font-semibold text-gray-700 w-1/6">
 								Customer
 							</th>
-							<th className="py-4 px-4 text-left font-semibold text-gray-700">
+							<th className="py-4 px-4 text-left font-semibold text-gray-700 w-1/6">
 								Product
 							</th>
-							<th className="py-4 px-4 text-left font-semibold text-gray-700">
-								Review & Rating
+							<th className="py-4 px-4 text-left font-semibold text-gray-700 w-1/4">
+								Review
 							</th>
-							<th className="py-4 px-4 text-left font-semibold text-gray-700">
+							<th className="py-4 px-4 text-left font-semibold text-gray-700 w-1/6">
 								Purchase Info
 							</th>
-							<th className="py-4 px-4 text-left font-semibold text-gray-700">
+							<th className="py-4 px-4 text-left font-semibold text-gray-700 w-1/12">
+								Rating
+							</th>
+							<th className="py-4 px-4 text-left font-semibold text-gray-700 w-1/12">
 								Status
 							</th>
-							<th className="py-4 px-4 text-left font-semibold text-gray-700">
+							<th className="py-4 px-4 text-left font-semibold text-gray-700 w-1/12">
 								Actions
 							</th>
 						</tr>
@@ -168,11 +249,11 @@ export default function ReviewDetailsPage() {
 											<img
 												src={review.image}
 												alt={review.customerName}
-												className="w-10 h-10 rounded-full object-cover mr-3"
+												className="w-8 h-8 rounded-full object-cover mr-2"
 											/>
 										) : (
-											<div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center mr-3">
-												<span className="text-gray-600">
+											<div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center mr-2">
+												<span className="text-gray-600 text-sm">
 													{getInitials(
 														review.customerName,
 													)}
@@ -198,10 +279,7 @@ export default function ReviewDetailsPage() {
 									</p>
 								</td>
 								<td className="py-3 px-4">
-									<p className="mb-1">{review.review}</p>
-									<div className="text-yellow-400">
-										{renderStars(review.rating)}
-									</div>
+									<p>{review.review}</p>
 								</td>
 								<td className="py-3 px-4">
 									<p className="text-sm">
@@ -211,34 +289,37 @@ export default function ReviewDetailsPage() {
 										Purchase Date: {review.purchaseDate}
 									</p>
 									{review.verifiedPurchase && (
-										<span className="inline-block mt-1 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+										<span className="inline-block mt-1 px-2 py-0.5 bg-green-100 text-green-800 text-xs rounded-full">
 											Verified Purchase
 										</span>
 									)}
 								</td>
 								<td className="py-3 px-4">
-									<div className="flex items-center space-x-2">
-										<Switch
-											checked={review.isPublished}
-											onCheckedChange={() =>
+									<span className="text-sm font-medium">
+										{review.rating}/5
+									</span>
+								</td>
+								<td className="py-3 px-4">
+									<label className="relative inline-flex items-center cursor-pointer">
+										<input
+											type="checkbox"
+											className="sr-only peer"
+											checked={reviewStates[review.id]}
+											onChange={() =>
 												handleTogglePublish(review.id)
 											}
 										/>
-										<span className="text-sm text-gray-600">
-											{review.isPublished
-												? "Published"
-												: "Hidden"}
-										</span>
-									</div>
+										<div className="w-8 h-4 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-blue-600"></div>
+									</label>
 								</td>
 								<td className="py-3 px-4">
 									<button
 										onClick={() =>
 											handleDeleteReview(review.id)
 										}
-										className="group flex items-center justify-center w-8 h-8 rounded-lg hover:bg-red-50 transition-colors"
+										className="p-1.5 rounded-lg hover:bg-red-50 transition-colors"
 									>
-										<Trash className="w-4 h-4 text-red-500 group-hover:text-red-600" />
+										<Trash className="w-4 h-4 text-red-500 hover:text-red-600" />
 									</button>
 								</td>
 							</tr>
