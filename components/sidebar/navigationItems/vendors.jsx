@@ -9,7 +9,7 @@ const sellersNavigation = {
 			icon: UserCheck,
 			title: "Manage Vendors",
 			links: [
-				{ href: "/vendors/sellers", title: "All Sellers" },
+				{ href: "/vendors/all-vendors", title: "All Vendors" },
 				{ href: "/vendors/vendor-requests", title: "Vendor Requests" },
 				{
 					href: "/vendors/approved-vendors",
@@ -35,6 +35,10 @@ const sellersNavigation = {
 					title: "Pending Products",
 				},
 				{
+					href: "/vendors/rejected-products",
+					title: "Rejected Products",
+				},
+				{
 					href: "/vendors/approved-products",
 					title: "Approved Products",
 				},
@@ -47,7 +51,7 @@ const sellersNavigation = {
 			links: [
 				{
 					href: "/vendors/all-vendor-orders",
-					title: "All Seller Orders",
+					title: "All Vendor Orders",
 				},
 				{ href: "/vendors/pending-orders", title: "Pending Orders" },
 				{
