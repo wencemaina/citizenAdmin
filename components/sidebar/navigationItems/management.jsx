@@ -60,16 +60,6 @@ const managementNavigation = {
 				{ href: "/inventory/restock", title: "Restock Alerts" },
 			],
 		},
-		{
-			type: "expandable",
-			icon: Truck,
-			title: "Vendors",
-			links: [
-				{ href: "/all-vendors", title: "All Vendors" },
-				{ href: "/vendors/add", title: "Add Vendor" },
-				{ href: "/vendors/requests", title: "Vendor Requests" },
-			],
-		},
 	],
 };
 
