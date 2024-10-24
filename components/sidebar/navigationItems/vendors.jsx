@@ -53,12 +53,18 @@ const sellersNavigation = {
 					href: "/vendors/all-vendor-orders",
 					title: "All Vendor Orders",
 				},
-				{ href: "/vendors/pending-orders", title: "Pending Orders" },
 				{
-					href: "/vendors/completed-vendors-orders",
+					href: "/vendors/pending-vendor-orders",
+					title: "Pending Orders",
+				},
+				{
+					href: "/vendors/completed-vendor-orders",
 					title: "Completed Orders",
 				},
-				{ href: "/vendors/returns", title: "Returned Orders" },
+				{
+					href: "/vendors/returned-vendor-orders",
+					title: "Returned Orders",
+				},
 			],
 		},
 	],
