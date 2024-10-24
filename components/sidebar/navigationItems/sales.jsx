@@ -26,7 +26,7 @@ const salesNavigation = {
 				{ href: "/orders/pending-orders", title: "Pending Orders" },
 				{ href: "/orders/completed-orders", title: "Completed Orders" },
 				{
-					href: "/orders/order-cancellations",
+					href: "/orders/cancelled-orders",
 					title: "Cancelled Orders",
 				},
 				{ href: "/orders/order-returns", title: " Order returns" },
