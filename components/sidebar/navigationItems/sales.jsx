@@ -36,6 +36,17 @@ const salesNavigation = {
 		{
 			type: "expandable",
 			icon: ClipboardList,
+			title: "Invoices",
+			links: [
+				{
+					href: "/invoices/all-invoices",
+					title: "All Invoices",
+				},
+			],
+		},
+		{
+			type: "expandable",
+			icon: ClipboardList,
 			title: "Reporting",
 			links: [
 				{
