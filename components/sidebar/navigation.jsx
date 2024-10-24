@@ -441,7 +441,7 @@ import settingsNavigation from "./navigationItems/settings";
 import supportNavigation from "./navigationItems/support";
 import refundsNavigation from "./navigationItems/refunds";
 import staffNavigation from "./navigationItems/staff";
-import sellersNavigation from "./navigationItems/sellers";
+import sellersNavigation from "./navigationItems/vendors";
 import deliveryNavigation from "./navigationItems/delivery";
 
 const navigationItems = [
@@ -449,13 +449,13 @@ const navigationItems = [
 	managementNavigation,
 	salesNavigation,
 	auctionsNavigation,
+	sellersNavigation,
 	communicationNavigation,
 	financialsNavigation,
 	deliveryNavigation,
 	refundsNavigation,
 	marketingNavigation,
 	supportNavigation,
-	sellersNavigation,
 	staffNavigation,
 	settingsNavigation,
 ];
