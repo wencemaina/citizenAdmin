@@ -28,7 +28,7 @@ const managementNavigation = {
 					href: "/inhouse-products",
 					title: "In House Products",
 				},
-				{ href: "/vendor-products", title: "Vendor Products" },
+
 				{ href: "/add-categories", title: "Add Categories" },
 				{ href: "/categories", title: "Categories" },
 				{ href: "/reviews", title: "Product Reviews" },
