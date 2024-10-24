@@ -30,7 +30,7 @@ const salesNavigation = {
 					title: "Cancelled Orders",
 				},
 				{ href: "/orders/order-returns", title: " Order returns" },
-				{ href: "orders/fulfilled-orders", title: "Fulfilled Order" },
+				{ href: "/orders/fulfilled-orders", title: "Fulfilled Order" },
 			],
 		},
 		{
