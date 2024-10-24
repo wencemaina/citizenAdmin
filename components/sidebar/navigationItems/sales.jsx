@@ -4,6 +4,7 @@ import {
 	ClipboardList,
 	Settings2,
 	ShoppingBag,
+	Box,
 } from "lucide-react";
 
 const salesNavigation = {
@@ -12,38 +13,24 @@ const salesNavigation = {
 	items: [
 		{
 			type: "expandable",
-			icon: ShoppingCart,
-			title: "Active Sales",
-			links: [
-				{ href: "/sales/ongoing", title: "Ongoing Sales" },
-				{ href: "/sales/upcoming", title: "Upcoming Sales" },
-				{ href: "/sales/ending-soon", title: "Ending Soon" },
-				{ href: "/sales/featured", title: "Featured Sales" },
-			],
-		},
-		{
-			type: "expandable",
-			icon: TagIcon,
-			title: "Sales Mngt",
-			links: [
-				{ href: "/sales/create", title: "Create New Sale" },
-				{ href: "/sales/draft", title: "Draft Sales" },
-				{ href: "/sales/templates", title: "Sales Templates" },
-				{ href: "/sales/bulk-upload", title: "Bulk Upload" },
-			],
-		},
-		{
-			type: "expandable",
-			icon: ShoppingBag,
+			icon: Box,
 			title: "Orders",
 			links: [
-				{ href: "/sales/orders/active", title: "Active Orders" },
-				{ href: "/sales/orders/returns", title: "Return Management" },
+				{ href: "/orders/all-orders", title: "All Orders" },
+				{ href: "/orders/inhouse-orders", title: "InHouse Orders" },
+				{ href: "/orders/all-vendor-orders", title: "Vendor Orders" },
 				{
-					href: "/sales/orders/cancellations",
-					title: "Order Cancellations",
+					href: "/orders/pickup-point-orders",
+					title: "PickUp Pnt Orders",
 				},
-				{ href: "/sales/orders/fulfilled", title: "Fulfilled Orders" },
+				{ href: "/orders/pending-orders", title: "Pending Orders" },
+				{ href: "/orders/completed-orders", title: "Completed Orders" },
+				{
+					href: "/orders/order-cancellations",
+					title: "Cancelled Orders",
+				},
+				{ href: "/orders/order-returns", title: " Order returns" },
+				{ href: "orders/fulfilled-orders", title: "Fulfilled Order" },
 			],
 		},
 		{

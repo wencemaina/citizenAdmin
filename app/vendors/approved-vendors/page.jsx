@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { Eye, ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -64,7 +65,7 @@ export default function VendorApplicationsPage() {
 	const [currentPage, setCurrentPage] = useState(1);
 
 	const handleViewDetails = (applicationId) => {
-		router.push(`/vendor-application-details/${applicationId}`);
+		router.push(`/vendor/vendor-application-details/${applicationId}`);
 	};
 
 	const getStatusColor = (status) => {

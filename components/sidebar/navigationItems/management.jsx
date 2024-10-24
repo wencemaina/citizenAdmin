@@ -34,22 +34,7 @@ const managementNavigation = {
 				{ href: "/reviews", title: "Product Reviews" },
 			],
 		},
-		{
-			type: "expandable",
-			icon: Box,
-			title: "Orders",
-			links: [
-				{ href: "/all-orders", title: "All Orders" },
-				{ href: "/inhouse-orders", title: "InHouse Orders" },
-				{ href: "/seller-orders", title: "Seller Orders" },
-				{ href: "/pickup-point-orders", title: "PickUp Pnt Orders" },
-				{ href: "/pending-orders", title: "Pending Orders" },
-				{ href: "/completed-orders", title: "Completed Orders" },
-				{ href: "/order-cancellations", title: "Cancelled Orders" },
-				{ href: "/order-returns", title: " Order returns" },
-				{ href: "/fulfilled-orders", title: "Fulfilled Order" },
-			],
-		},
+
 		{
 			type: "expandable",
 			icon: Archive,
