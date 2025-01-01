@@ -1,9 +1,13 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { ImagePlus } from "lucide-react";
 
-export function ImageUpload({ formData, handleChange }) {
+export function ImageUpload({
+	formData,
+	handleThumbnailChange,
+	handleImageChange,
+}) {
 	const [thumbnailPreview, setThumbnailPreview] = useState(null);
 	const [productImages, setProductImages] = useState([]);
 	const [isDraggingThumbnail, setIsDraggingThumbnail] = useState(false);
@@ -11,49 +15,6 @@ export function ImageUpload({ formData, handleChange }) {
 
 	const thumbnailRef = useRef(null);
 	const productsRef = useRef(null);
-
-	const handleThumbnailSelect = (file) => {
-		if (!file || !file.type.startsWith("image/")) return;
-
-		const reader = new FileReader();
-		reader.onload = (e) => {
-			setThumbnailPreview(e.target.result);
-		};
-		reader.readAsDataURL(file);
-
-		// Update form data with the new thumbnail
-		handleChange({
-			target: {
-				name: "thumbnail",
-				value: file,
-			},
-		});
-	};
-
-	const handleProductImagesSelect = (files) => {
-		const validImageFiles = Array.from(files).filter((file) =>
-			file.type.startsWith("image/"),
-		);
-
-		const newImages = validImageFiles.map((file) => ({
-			preview: URL.createObjectURL(file),
-			file,
-		}));
-
-		setProductImages((prev) => {
-			const updatedImages = [...prev, ...newImages];
-
-			// Update form data with all image files
-			handleChange({
-				target: {
-					name: "images",
-					value: updatedImages.map((img) => img.file),
-				},
-			});
-
-			return updatedImages;
-		});
-	};
 
 	const handleDragOver = (e, setIsDragging) => {
 		e.preventDefault();
@@ -71,16 +32,50 @@ export function ImageUpload({ formData, handleChange }) {
 		e.preventDefault();
 		e.stopPropagation();
 
+		// Reset dragging states
 		setIsDraggingThumbnail(false);
 		setIsDraggingProducts(false);
 
 		const files = Array.from(e.dataTransfer.files);
 
 		if (type === "thumbnail") {
-			handleThumbnailSelect(files[0]);
-		} else {
+			// Handle thumbnail drop
+			const file = files[0];
+			if (file && file.type.startsWith("image/")) {
+				handleThumbnailSelect(file);
+			}
+		} else if (type === "products") {
+			// Handle product images drop
 			handleProductImagesSelect(files);
 		}
+	};
+
+	const handleThumbnailSelect = (file) => {
+		if (!file || !file.type.startsWith("image/")) return;
+
+		const reader = new FileReader();
+		reader.onload = (e) => {
+			setThumbnailPreview(e.target.result);
+			handleThumbnailChange(file);
+		};
+		reader.readAsDataURL(file);
+	};
+
+	const handleProductImagesSelect = (files) => {
+		const validImageFiles = Array.from(files).filter((file) =>
+			file.type.startsWith("image/"),
+		);
+
+		const newImages = validImageFiles.map((file) => ({
+			preview: URL.createObjectURL(file),
+			file,
+		}));
+
+		setProductImages((prev) => {
+			const updatedImages = [...prev, ...newImages];
+			handleImageChange(updatedImages.map((img) => img.file));
+			return updatedImages;
+		});
 	};
 
 	const handleRemoveProductImage = (indexToRemove) => {
@@ -88,28 +83,23 @@ export function ImageUpload({ formData, handleChange }) {
 			const newImages = prev.filter(
 				(_, index) => index !== indexToRemove,
 			);
-
-			// Update form data with remaining files
-			handleChange({
-				target: {
-					name: "images",
-					value: newImages.map((img) => img.file),
-				},
-			});
-
+			handleImageChange(newImages.map((img) => img.file));
 			return newImages;
 		});
 	};
 
 	const handleRemoveThumbnail = () => {
 		setThumbnailPreview(null);
-		handleChange({
-			target: {
-				name: "thumbnail",
-				value: null,
-			},
-		});
+		handleThumbnailChange(null);
 	};
+
+	useEffect(() => {
+		return () => {
+			productImages.forEach((image) => {
+				URL.revokeObjectURL(image.preview);
+			});
+		};
+	}, [productImages]);
 
 	return (
 		<div className="space-y-6">
@@ -123,7 +113,7 @@ export function ImageUpload({ formData, handleChange }) {
 						isDraggingThumbnail
 							? "border-blue-400 bg-blue-50"
 							: "border-gray-300"
-					} border-dashed rounded-md relative`}
+					} border-dashed rounded-md relative cursor-pointer`}
 					onDragOver={(e) =>
 						handleDragOver(e, setIsDraggingThumbnail)
 					}
@@ -190,7 +180,7 @@ export function ImageUpload({ formData, handleChange }) {
 						isDraggingProducts
 							? "border-blue-400 bg-blue-50"
 							: "border-gray-300"
-					} border-dashed rounded-md relative`}
+					} border-dashed rounded-md relative cursor-pointer`}
 					onDragOver={(e) => handleDragOver(e, setIsDraggingProducts)}
 					onDragLeave={(e) =>
 						handleDragLeave(e, setIsDraggingProducts)
