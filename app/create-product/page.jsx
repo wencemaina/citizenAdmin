@@ -14,9 +14,14 @@ const initialFormState = {
 	leafCategory: "",
 	shortDescription: "",
 	longDescription: "",
-	size: "",
-	color: "",
-	weight: "",
+	variants: [
+		{
+			sizes: [],
+			colors: [],
+			material: "",
+			weight: "",
+		},
+	],
 	thumbnail: null,
 	images: [],
 	price: "",
@@ -104,6 +109,27 @@ export default function CreateProduct() {
 			return false;
 		}
 
+		// Validate variants
+		if (!formData.variants?.length) {
+			setError("Please add at least one variant");
+			return false;
+		}
+
+		const invalidVariants = formData.variants.filter(
+			(variant) =>
+				!variant.sizes.length ||
+				!variant.colors.length ||
+				!variant.material ||
+				!variant.weight,
+		);
+
+		if (invalidVariants.length > 0) {
+			setError(
+				"Please fill in all variant details (sizes, colors, material, and weight)",
+			);
+			return false;
+		}
+
 		return true;
 	};
 
@@ -113,6 +139,14 @@ export default function CreateProduct() {
 
 		// Create FormData object
 		const formDataToSend = new FormData();
+
+		// Prepare variants data
+		const formattedVariants = formData.variants.map((variant) => ({
+			sizes: variant.sizes,
+			colors: variant.colors,
+			material: variant.material,
+			weight: parseFloat(variant.weight),
+		}));
 
 		// Add all the text/number data as a JSON string with the key 'data'
 		const productData = {
@@ -131,9 +165,7 @@ export default function CreateProduct() {
 			created_at: now,
 			updated_at: now,
 			long_description: formData.longDescription,
-			size: formData.size,
-			color: formData.color,
-			weight: formData.weight,
+			variants: formattedVariants,
 		};
 
 		// Add the JSON data
@@ -146,7 +178,7 @@ export default function CreateProduct() {
 
 		// Add product images
 		if (formData.images?.length > 0) {
-			formData.images.forEach((image, index) => {
+			formData.images.forEach((image) => {
 				formDataToSend.append(`images`, image);
 			});
 		}
