@@ -40,6 +40,7 @@ export default function CreateProduct() {
 	const [formData, setFormData] = useState(initialFormState);
 	const [showSuccess, setShowSuccess] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [error, setError] = useState(null);
 
 	// Sample data
 	const categories = ["Electronics", "Clothing", "Home & Garden", "Books"];
@@ -64,99 +65,138 @@ export default function CreateProduct() {
 	const handleImageChange = (files) => {
 		setFormData((prev) => ({
 			...prev,
-			images: files,
+			images: Array.from(files),
 		}));
 	};
 
 	const resetForm = () => {
 		setFormData(initialFormState);
+		setError(null);
 		const fileInputs = document.querySelectorAll('input[type="file"]');
 		fileInputs.forEach((input) => {
 			input.value = "";
 		});
 	};
 
+	const validateForm = () => {
+		const requiredFields = [
+			"name",
+			"brand",
+			"category",
+			"shortDescription",
+			"price",
+		];
+		const missingFields = requiredFields.filter(
+			(field) => !formData[field],
+		);
+
+		if (missingFields.length > 0) {
+			setError(
+				`Please fill in all required fields: ${missingFields.join(
+					", ",
+				)}`,
+			);
+			return false;
+		}
+
+		if (!formData.thumbnail) {
+			setError("Please upload a thumbnail image");
+			return false;
+		}
+
+		return true;
+	};
+
 	const formatDataForAPI = () => {
 		const now = new Date().toISOString();
 		const productId = generateProductId();
 
-		// Create FormData object to handle file uploads
+		// Create FormData object
 		const formDataToSend = new FormData();
 
-		// Add the thumbnail if it exists
+		// Add all the text/number data as a JSON string with the key 'data'
+		const productData = {
+			product_id: productId,
+			name: formData.name,
+			short_description: formData.shortDescription,
+			brand: formData.brand,
+			category: formData.category,
+			sub_category: formData.subCategory,
+			leaf_category: formData.leafCategory,
+			price: parseFloat(formData.price),
+			points: parseInt(formData.points),
+			currency: "KSH",
+			status: "active",
+			stock: parseInt(formData.stock),
+			created_at: now,
+			updated_at: now,
+			long_description: formData.longDescription,
+			size: formData.size,
+			color: formData.color,
+			weight: formData.weight,
+		};
+
+		// Add the JSON data
+		formDataToSend.append("data", JSON.stringify(productData));
+
+		// Add thumbnail
 		if (formData.thumbnail) {
 			formDataToSend.append("thumbnail", formData.thumbnail);
 		}
 
-		// Add all product images
-		if (formData.images && formData.images.length > 0) {
-			formData.images.forEach((image) => {
+		// Add product images
+		if (formData.images?.length > 0) {
+			formData.images.forEach((image, index) => {
 				formDataToSend.append(`images`, image);
 			});
 		}
 
-		// Create the product data object
-		const productData = {
-			product: {
-				product_id: productId,
-				name: formData.name,
-				short_description: formData.shortDescription,
-				vendor_id: "VENDOR00001",
-				brand_id: formData.brand,
-				category_id: formData.category,
-				sub_category_id: formData.subCategory,
-				leaf_category_id: formData.leafCategory,
-				price: parseFloat(formData.price),
-				points: parseInt(formData.points),
-				currency: "USD",
-				status: "active",
-				stock: 50,
-				created_by: "USER000001",
-				created_at: now,
-				updated_at: now,
-			},
-			long_description: {
-				product_id: productId,
-				long_description: formData.longDescription,
-				created_at: now,
-				updated_at: now,
-			},
-			attributes: {
-				product_id: productId,
-				size: formData.size,
-				color: formData.color,
-				weight: formData.weight,
-				created_at: now,
-				updated_at: now,
-			},
-		};
-
-		// Add the JSON data to the FormData
-		formDataToSend.append("productData", JSON.stringify(productData));
+		// Debug logging
+		console.log("Product Data:", productData);
+		console.log("FormData contents:");
+		for (let pair of formDataToSend.entries()) {
+			console.log(pair[0], pair[1]);
+		}
 
 		return formDataToSend;
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setError(null);
+
+		if (!validateForm()) {
+			return;
+		}
+
 		setIsSubmitting(true);
 
 		try {
 			const formDataToSend = formatDataForAPI();
 
 			const response = await fetch(
-				"http://localhost:8080/rango/api/new/product/create",
+				"http://localhost:8080/rango/api/new/product/create-product",
 				{
 					method: "POST",
 					body: formDataToSend,
 				},
 			);
 
+			const responseText = await response.text();
+			console.log("Raw server response:", responseText);
+
 			if (!response.ok) {
-				throw new Error("Failed to create product");
+				throw new Error(`Failed to create product: ${responseText}`);
 			}
 
-			const result = await response.json();
+			let result;
+			try {
+				result = JSON.parse(responseText);
+			} catch (e) {
+				console.warn("Could not parse response as JSON:", responseText);
+				result = responseText;
+			}
+
 			console.log("Product created:", result);
 
 			setShowSuccess(true);
@@ -167,6 +207,9 @@ export default function CreateProduct() {
 			}, 5000);
 		} catch (error) {
 			console.error("Error submitting form:", error);
+			setError(
+				error.message || "Failed to create product. Please try again.",
+			);
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -204,6 +247,12 @@ export default function CreateProduct() {
 					</div>
 				)}
 
+				{error && (
+					<div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+						<p className="text-red-800">{error}</p>
+					</div>
+				)}
+
 				<div className="bg-white shadow-md rounded-lg p-6">
 					<h2 className="text-2xl font-bold mb-6 text-gray-800">
 						Create New Product
@@ -233,7 +282,8 @@ export default function CreateProduct() {
 
 						<ImageUpload
 							formData={formData}
-							handleChange={handleChange}
+							handleThumbnailChange={handleThumbnailChange}
+							handleImageChange={handleImageChange}
 						/>
 
 						<Pricing
