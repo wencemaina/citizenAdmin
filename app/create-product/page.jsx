@@ -43,8 +43,21 @@ export default function CreateProduct() {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [error, setError] = useState(null);
 
-	// Sample data
-	const categories = ["Electronics", "Clothing", "Home & Garden", "Books"];
+	// Updated categories
+	const categories = [
+		"Electronics",
+		"Beauty & Personal Care",
+		"Home & Kitchen",
+		"Computer & Accessories",
+		"Baby & Kids",
+		"Furniture",
+		"Clothing & Apparel",
+		"Jewelry & Accessories",
+		"Sports & Outdoors",
+		"Automotive",
+		"Office Supplies",
+		"Toys & Games",
+	];
 	const subCategories = ["Phones", "Laptops", "Accessories"];
 	const leafCategories = ["iPhone", "Samsung", "Google Pixel"];
 	const sizes = ["S", "M", "L", "XL"];
