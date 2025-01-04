@@ -4,6 +4,7 @@ import { BasicInfo } from "@/components/create-product/basicInfo";
 import { Description } from "@/components/create-product/description";
 import { ImageUpload } from "@/components/create-product/imageUpload";
 import { Pricing } from "@/components/create-product/pricing";
+import Specifications from "@/components/create-product/specifications";
 import { useState } from "react";
 
 const initialFormState = {
@@ -24,6 +25,8 @@ const initialFormState = {
 	stock: 50,
 	currency: "USD",
 	lowStockThreshold: 0,
+	specifications: {},
+	keyFeatures: [],
 };
 
 const generateProductId = () => {
@@ -73,6 +76,14 @@ export default function CreateProduct() {
 		setFormData((prev) => ({
 			...prev,
 			thumbnail: file,
+		}));
+	};
+
+	const handleSpecificationChange = ({ specifications, keyFeatures }) => {
+		setFormData((prev) => ({
+			...prev,
+			specifications,
+			keyFeatures,
 		}));
 	};
 
@@ -149,6 +160,8 @@ export default function CreateProduct() {
 			color: formData.color,
 			weight: formData.weight,
 			low_stock_threshold: parseInt(formData.lowStockThreshold),
+			specifications: formData.specifications,
+			key_features: formData.keyFeatures,
 		};
 
 		// Add the JSON data
@@ -286,6 +299,12 @@ export default function CreateProduct() {
 						<Description
 							formData={formData}
 							handleChange={handleChange}
+						/>
+
+						<Specifications
+							initialSpecifications={formData.specifications}
+							initialKeyFeatures={formData.keyFeatures}
+							onSpecificationChange={handleSpecificationChange}
 						/>
 
 						<Attributes
